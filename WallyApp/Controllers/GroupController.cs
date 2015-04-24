@@ -1,13 +1,17 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using WallyApp.Models;
 
 namespace WallyApp.Controllers
 {
     public class GroupController : Controller
     {
+        //private 
         // GET: Group
         public ActionResult Index()
         {
@@ -28,18 +32,29 @@ namespace WallyApp.Controllers
 
         // POST: Group/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public async Task<ActionResult> Create(GroupCreateViewModel model)
         {
-            try
+            if(ModelState.IsValid)
             {
-                // TODO: Add insert logic here
+                var group = model.groupName;
+                //TODO Add method to add a group with 'name' to database
 
                 return RedirectToAction("Index");
             }
-            catch
+            else
             {
                 return View();
             }
+            //try
+            //{
+            //    // TODO: Add insert logic here
+
+            //    return RedirectToAction("Index");
+            //}
+            //catch
+            //{
+            //    return View();
+            //}
         }
 
         // GET: Group/Edit/5

@@ -17,7 +17,12 @@ namespace WallyApp.Models
     public class GroupCreateViewModel
     {
         [Required]
-        [Display(Name="Name")]
-        public string Name { get; set; }
+        [Display(Name="Group name")]
+        public string groupName { get; set; }
+    }
+
+    public class GroupEntities
+    {
+
     }
 }
