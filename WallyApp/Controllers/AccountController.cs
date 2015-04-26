@@ -65,7 +65,7 @@ namespace WallyApp.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Invalid username or password.");
+                    ModelState.AddModelError("", "Niepoprawna nazwa użytkownika bądź hasło.");
                 }
             }
 
@@ -156,7 +156,7 @@ namespace WallyApp.Controllers
                 var user = await UserManager.FindByNameAsync(model.Email);
                 if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
                 {
-                    ModelState.AddModelError("", "The user either does not exist or is not confirmed.");
+                    ModelState.AddModelError("", "Taki użytkownik nie istnieje bądź nie został aktywowany.");
                     return View();
                 }
 
@@ -204,7 +204,7 @@ namespace WallyApp.Controllers
                 var user = await UserManager.FindByNameAsync(model.Email);
                 if (user == null)
                 {
-                    ModelState.AddModelError("", "No user found.");
+                    ModelState.AddModelError("", "Taki użytkownik nie istnieje.");
                     return View();
                 }
                 IdentityResult result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
