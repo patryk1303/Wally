@@ -89,7 +89,7 @@ $app->group('/user', function() use ($app) {
     });
     $app->get('/logout', function() use ($app) {
         destroySession();
-        $app->redirect(__FILE__);
+        $app->redirect('./..');
     });
     $app->get('/menage', function() use($app) {
         $user = R::findOne('users', "id = " . $_SESSION['user_id']);
