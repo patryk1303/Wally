@@ -1,0 +1,43 @@
+{include '_header.html'}
+
+{*
+    +email
+    +password
+    +first_name
+    +last_name
+    skype
+    phone_number
+*}
+
+<h2>Zarejestruj się</h2>
+
+<form action="{siteUrl url='user/register'}" method="post" class="">
+    <div class="form-group">
+        <label for="email">Adres email *</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="Adres email" maxlength="45" required>
+    </div>
+    <div class="form-group">
+        <label for="passwd1">Hasło *</label>
+        <input type="password" class="form-control" id="passwd1" name="passwd1" placeholder="Hasło" required>
+        <input type="password" class="form-control" id="passwd2" name="passwd2" placeholder="Powtórz hasło" required>
+    </div>
+    <div class="form-group">
+        <label for="name">Imię *</label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="Imię" maxlength="15" required>
+    </div>
+    <div class="form-group">
+        <label for="surname">Nazwisko *</label>
+        <input type="text" class="form-control" id="surname" name="surname" placeholder="Nazwisko" maxlength="45" required>
+    </div>
+    <div class="form-group">
+        <label for="skype">Identyfikator Skype</label>
+        <input type="text" class="form-control" id="skype" name="skype" maxlength="20" placeholder="Identyfikator Skype">
+    </div>
+    <div class="form-group">
+        <label for="phone">Numer telefonu</label>
+        <input type="text" class="form-control" id="phone" name="phone" maxlength="20" placeholder="Numer telefonu">
+    </div>
+    <button type="submit" class="btn btn-default">Zarejstruj się</button>
+</form>
+
+{include '_footer.html'}

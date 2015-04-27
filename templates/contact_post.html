@@ -1,0 +1,15 @@
+{include '_header.html'}
+
+<h2>Contact</h2>
+
+{if $correct}
+    <div class="alert alert-success">
+        <strong>Dziękujemy za kontakt!</strong>
+    </div>
+{else}
+    <div class="alert alert-danger">
+        <strong>Wystapił błąd z wprowadzonymi danymi</strong>
+    </div>
+{/if}
+
+{include '_footer.html'}
