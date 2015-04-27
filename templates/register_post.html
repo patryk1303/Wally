@@ -1,0 +1,16 @@
+{include '_header.html'}
+
+<h2>Zarejestruj się</h2>
+
+{if $correct}
+    <div class="alert alert-success">
+        <string>Pomyślnie zarejestrowano</string><br>
+        Możesz się teraz zalogować
+    </div>
+{else}
+    <div class="alert alert-danger">
+        <strong>Wystapił błąd podczas rejestracji</strong>
+    </div>
+{/if}
+
+{include '_footer.html'}
