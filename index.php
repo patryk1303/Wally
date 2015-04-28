@@ -164,6 +164,13 @@ $app->group('/group', function() use ($app) {
         
         $app->render('group/create_post.html', array('correct'=>$correct,'id'=>$gID));
     });
+    
+    $app->get('/view/:id', function($id) use ($app) {
+        $posts = R::getAll("SELECT * FROM posts,groups WHERE group_id = group.id");
+        $group = R::load('groups',$id);
+        
+        $app->render('group/view.html',array("posts" => $posts, "group" => $group));
+    });
 });
 
 $app->run();

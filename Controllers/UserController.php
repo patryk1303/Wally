@@ -62,6 +62,7 @@ function CheckUserLogin($data) {
 //    echo "c: ".count($user)."<br>";
     
     if(count($user) == 1) {
+        //change index to user ID
         $_SESSION['user_id'] = $user[1]->id;
         $_SESSION['email'] = $user[1]->email;
         $_SESSION['password'] = $user[1]->password;
