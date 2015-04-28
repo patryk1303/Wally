@@ -53,21 +53,18 @@ function CheckUserLogin($data) {
     $passwd = md5($data['passwd']);
     
     $user = R::find('users', "email LIKE :email AND password LIKE :passwd",
-                   array(
-                   ':email' => $email,
-                   ':passwd' => $passwd
-                    )
-                   );
+                   array(':email' => $email,':passwd' => $passwd));
     
-//    echo "c: ".count($user)."<br>";
+    echo "c: ".count($user)."<br>";
+    print_r($user);
     
     if(count($user) == 1) {
-        //change index to user ID
-        $_SESSION['user_id'] = $user[1]->id;
-        $_SESSION['email'] = $user[1]->email;
-        $_SESSION['password'] = $user[1]->password;
+        $user = R::findOne('users', "email LIKE :email AND password LIKE :passwd",
+                   array(':email' => $email,':passwd' => $passwd));
+        $_SESSION['user_id'] = $user->id;
+        $_SESSION['email'] = $user->email;
+        $_SESSION['password'] = $user->password;
         $_SESSION['login_ok'] = true;
-//        print_r($_SESSION);
         return true;
     }
     

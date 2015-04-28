@@ -13,8 +13,6 @@ function checkSessionVars() {
     if(!isset($_SESSION['login_ok'])) {
         $_SESSION['login_ok'] = 0;
     }
-    
-//    print_r($_SESSION);
 }
 
 function destroySession() {
@@ -30,23 +28,17 @@ function checkUserSession() {
     $passwd  = $_SESSION['password'];
 
     $user = R::find('users', "id = :id AND email LIKE :email AND password LIKE :passwd",
-                    array(
-                        ':id'     => $user_id,
-                        ':email'  => $email,
-                        ':passwd' => $passwd
-                    )
-                   );
+                    array(':id' => $user_id,':email'  => $email,':passwd' => $passwd));
 
     if(count($user) == 1) {
-        $_SESSION['user_id'] = $user[1]->id;
-        $_SESSION['email'] = $user[1]->email;
-        $_SESSION['password'] = $user[1]->password;
+        $user = R::findOne('users', "id = :id AND email LIKE :email AND password LIKE :passwd",
+                    array(':id' => $user_id,':email'  => $email,':passwd' => $passwd));
+        $_SESSION['user_id'] = $user->id;
+        $_SESSION['email'] = $user->email;
+        $_SESSION['password'] = $user->password;
         $_SESSION['login_ok'] = true;
-//        print_r($_SESSION);
         return true;
     }
 
     return false;
 }
-
-?>
