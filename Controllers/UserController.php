@@ -55,8 +55,8 @@ function CheckUserLogin($data) {
     $user = R::find('users', "email LIKE :email AND password LIKE :passwd",
                    array(':email' => $email,':passwd' => $passwd));
     
-    echo "c: ".count($user)."<br>";
-    print_r($user);
+//    echo "c: ".count($user)."<br>";
+//    print_r($user);
     
     if(count($user) == 1) {
         $user = R::findOne('users', "email LIKE :email AND password LIKE :passwd",
