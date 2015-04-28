@@ -1,0 +1,17 @@
+{include '_header.html'}
+
+<h2>Zaloguj się</h2>
+
+<form action="{siteUrl url='user/login'}" method="post" class="">
+    <div class="form-group">
+        <label for="email">Adres email *</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="Adres email" maxlength="45" required>
+    </div>
+    <div class="form-group">
+        <label for="passwd">Hasło *</label>
+        <input type="password" class="form-control" id="passwd" name="passwd" placeholder="Hasło" required>
+    </div>
+    <button type="submit" class="btn btn-default">Zaloguj się</button>
+</form>
+
+{include '_footer.html'}

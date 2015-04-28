@@ -1,0 +1,26 @@
+{include '_header.html'}
+
+<h2>Lista wszystkich grup</h2>
+
+<table class='table table-responsive'>
+    <tr>
+        <th>Lp.</th>
+        <th>Nazwa</th>
+        <th>Właściciel</th>
+    </tr>
+    {foreach $groups as $group name=group}
+    <tr>
+        <td>{$smarty.foreach.group.index+1}</td>
+        <td>
+            <a href="{siteUrl url='group/view/'}{$group.id}">{$group.name}</a>
+        </td>
+        <td>
+            <a href="{siteUrl url='user/profile/'}{$group.owner}">
+                {$group.first_name} {$group.last_name}
+            </a>
+        </td>
+    </tr>
+    {/foreach}
+</table>
+
+{include '_footer.html'}

@@ -1,0 +1,36 @@
+{include '_header.html'}
+
+<h2>{$group.name}</h2>
+
+<form action="{siteUrl url='group/view/'}{$group.id}" method="post">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            Dodaj wiadomość
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label for="message">Treść wiadomości:</label>
+                <textarea name="message" id="message" class="form-control"></textarea>
+                <label for="priority">Priorytet:</label>
+                <select id="piority" name="piority" class="form-control">
+                    <option value="0">Bardzo niski</option>
+                    <option value="1">Niski</option>
+                    <option value="2">Średni</option>
+                    <option value="3">Wysoki</option>
+                    <option value="4">Bardzo wysoki</option>
+                </select>
+            </div>
+            <button class="btn btn-info" type="submit">Dodaj wiadomość</button>
+        </div>
+    </div>
+</form>
+
+<script src="{baseUrl}/js/nicEdit.js"></script>
+<script>
+    new nicEditor({ldelim}
+        buttonList : ['fontSize','bold','italic','underline','strikeThrough','subscript','superscript','html','image'],
+        iconsPath : '{baseUrl}/img/nicEditorIcons.gif'
+        {rdelim}).panelInstance('message');
+</script>
+
+{include '_footer.html'}

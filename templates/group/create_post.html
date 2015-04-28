@@ -1,0 +1,17 @@
+{include '_header.html'}
+
+<h2>Stwórz grupę</h2>
+
+{if $correct}
+<div class="alert alert-success">
+    <strong>Pomyślnie utworzono grupę!</strong><br>
+    Jeśli chcesz, możesz <a href="{siteUrl url='/group/view/'}{$id}">zobaczyć grupę</a>
+</div>
+{else}
+<div class="alert alert-danger">
+    <strong>Wystąpił błąd</strong>
+    Wystapił błąd podczas tworzenia grupy (niepoprawna nazwa, itp.). Jeśli chcesz, możesz <a href="{siteUrl url='group/create'}">spróbować ponownie</a>
+</div>
+{/if}
+
+{include '_footer.html'}

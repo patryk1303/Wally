@@ -1,0 +1,55 @@
+{include '_header.html'}
+
+<h2>Edycja profilu</h2>
+
+<form action="{siteUrl url='/user/menage'}" method="post">
+    <table class="table">
+        <tr class="form-group">
+            <td>
+                <label for="name">Imię</label>
+            </td>
+            <td>
+                <input class="form-control" type="text" name="name" id="name" value="{$name}">
+            </td>
+        </tr>
+        <tr class="form-group">
+            <td>
+                <label for="surname">Nazwisko</label>
+            </td>
+            <td>
+                <input class="form-control" type="text" name="surname" id="surname" value="{$surname}">
+            </td>
+        </tr>
+        <tr class="form-group">
+            <td>
+                <label for="email">Adres email</label>
+            </td>
+            <td>
+                <input class="form-control" type="text" name="email" id="email" value="{$email}">
+            </td>
+        </tr>
+        <tr class="form-group">
+            <td>
+                <label for="skype">Skype</label>
+            </td>
+            <td>
+                <input class="form-control" type="text" name="skype" id="skype" value="{$skype}">
+            </td>
+        </tr>
+        <tr class="form-group">
+            <td>
+                <label for="tel">Numer telefonu</label>
+            </td>
+            <td>
+                <input class="form-control" type="text" name="tel" id="tel" value="{$tel}">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button type="submit" class="btn btn-info">Zmień dane</button>
+            </td>
+        </tr>
+    </table>
+</form>
+
+{include '_footer.html'}

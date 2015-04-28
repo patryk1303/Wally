@@ -1,0 +1,20 @@
+{include '_header.html'}
+
+<h2>Twoje grupy</h2>
+
+<table class='table table-responsive'>
+    <tr>
+        <th>Lp.</th>
+        <th>Nazwa</th>
+    </tr>
+    {foreach $groups as $group name=group}
+    <tr>
+        <td>{$smarty.foreach.group.index+1}</td>
+        <td>
+            <a href="{siteUrl url='group/view/'}{$group.id}">{$group.name}</a>
+        </td>
+    </tr>
+    {/foreach}
+</table>
+
+{include '_footer.html'}

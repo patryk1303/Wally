@@ -1,0 +1,25 @@
+{include '_header.html'}
+
+<h2>Kontakt</h2>
+
+<form action="{baseUrl}/contact" method="post" class="">
+    <div class="form-group">
+        <label for="name">Imię</label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="Imię" required>
+    </div>
+    <div class="form-group">
+        <label for="surname">Nazwisko</label>
+        <input type="text" class="form-control" id="surname" name="surname" placeholder="Nazwisko" required>
+    </div>
+    <div class="form-group">
+        <label for="email">Adres email</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="Adres email" required>
+    </div>
+    <div class="form-group">
+        <label for="content">Treść</label>
+        <textarea class="form-control" id="content" name="content" placeholder="Treść" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-default">Skontaktuj się z nami</button>
+</form>
+
+{include '_footer.html'}
