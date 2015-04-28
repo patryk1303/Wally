@@ -653,6 +653,7 @@ class RPDO implements Driver
 	 */
 	protected function runQuery( $sql, $bindings, $options = array() )
 	{
+//            echo $sql;
 		$this->connect();
 		if ( $this->loggingEnabled && $this->logger ) {
 			$this->logger->log( $sql, $bindings );

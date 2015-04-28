@@ -16,10 +16,13 @@ function CheckUserRegister($data) {
         'surname'   => 1
     );
     
-    if(filter_var($email, FILTER_VALIDATE_EMAIL))
+    if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $correct['email'] = 1;
-    if($passwd1==$passwd2) $correct['password'] = 1;
-    
+    }
+    if ($passwd1 == $passwd2) {
+        $correct['password'] = 1;
+    }
+
     $c = count(array_unique($correct));
     if ($c == 1) {
         if ($correct['email'] == 1) {
@@ -69,5 +72,3 @@ function CheckUserLogin($data) {
     
     return false;
 }
-
-?>

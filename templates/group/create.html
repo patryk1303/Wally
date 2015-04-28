@@ -1,0 +1,13 @@
+{include '_header.html'}
+
+<h2>Stwórz grupę</h2>
+
+<form action="{siteUrl url='group/create'}" method="post" class="">
+    <div class="form-group">
+        <label for="name">Nazwa grupy *</label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="Nazwa grupy" maxlength="25" required>
+    </div>
+    <button type="submit" class="btn btn-default">Stwórz grupę</button>
+</form>
+
+{include '_footer.html'}
