@@ -1,4 +1,6 @@
-{include '_header.html'}
+{extends '_main/_index.html'}
+
+{block name='main'}
 
 <h2>Zarejestruj się</h2>
 
@@ -11,6 +13,7 @@
         <label for="passwd1">Hasło *</label>
         <input type="password" class="form-control" id="passwd1" name="passwd1" placeholder="Hasło" required>
         <input type="password" class="form-control" id="passwd2" name="passwd2" placeholder="Powtórz hasło" required>
+        <div id="passwordCheck" class="alert"></div>
     </div>
     <div class="form-group">
         <label for="name">Imię *</label>
@@ -28,7 +31,58 @@
         <label for="phone">Numer telefonu</label>
         <input type="text" class="form-control" id="phone" name="phone" maxlength="20" placeholder="Numer telefonu">
     </div>
-    <button type="submit" class="btn btn-default">Zarejstruj się</button>
+    <button type="submit" class="btn btn-default" id="registerButton">Zarejstruj się</button>
 </form>
 
-{include '_footer.html'}
+{/block}
+
+{block name='extra_scripts' prepend}
+    {literal}
+    <script>
+        (function() {
+            function checkPasswords() {
+                var errors = [];
+                
+                var pass1 = $('#passwd1').val();
+                var pass2 = $('#passwd2').val();
+                var outHTML = '';
+                
+                var passwdCheckEl = $('#passwordCheck');
+                passwdCheckEl.html('');
+                
+                if(pass1!==pass2) {
+                    errors.push('hasła są nierówne');
+                }
+                if(pass1.length < 8) {
+                    errors.push('hasło jest za krótkie');
+                }
+                
+                if(errors.length > 0) {
+                    $('#registerButton').attr('disabled', true);
+                    passwdCheckEl.removeClass('alert-success');
+                    passwdCheckEl.addClass('alert-danger');
+                    outHTML = '<strong>Błędne hasła!</strong><br>';
+                    outHTML += 'Wykryte problemy:';
+                    outHTML += '<ul>';
+                    for(var i=0,len=errors.length;i<len;++i) {
+                        outHTML += '<li>' + errors[i] + '</li>';
+                    }
+                    outHTML += '</ul>'
+                    passwdCheckEl.html(outHTML);
+                } else {
+                    $('#registerButton').attr('disabled', false);
+                    passwdCheckEl.removeClass('alert-danger');
+                    passwdCheckEl.addClass('alert-success');
+                    outHTML = '<strong>Hasła są dobre!</strong><br>';
+                    passwdCheckEl.html(outHTML);
+                }
+
+                console.log(pass1,pass2);
+            }
+
+            $('#passwd1').keyup(checkPasswords);
+            $('#passwd2').keyup(checkPasswords);
+        })();
+    </script>
+    {/literal}
+{/block}
