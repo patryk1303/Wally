@@ -1,8 +1,10 @@
-{include '_header.html'}
+{extends '_main/_index.html'}
+
+{block name='main'}
 
 <h2>{$group.name}</h2>
 
-<form action="{siteUrl url='group/view/'}{$group.id}" method="post">
+<form action="{siteUrl url='group/post/'}{$group.id}" method="post">
     <div class="panel panel-info">
         <div class="panel-heading">
             Dodaj wiadomość
@@ -25,7 +27,10 @@
     </div>
 </form>
 
-<script src="{baseUrl}/js/nicEdit.js"></script>
+{/block}
+
+{block name='extra_scripts' prepend}
+
 <script>
     new nicEditor({ldelim}
         buttonList : ['fontSize','bold','italic','underline','strikeThrough','subscript','superscript','html','image'],
@@ -33,4 +38,4 @@
         {rdelim}).panelInstance('message');
 </script>
 
-{include '_footer.html'}
+{/block}

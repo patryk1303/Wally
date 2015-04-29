@@ -33,7 +33,15 @@ $view->parserExtensions = array($plug);
 $app->setName('Wally');
 
 $app->get('/', function() use ($app) {
-    $app->render('main.html');
+    
+    if($_SESSION['login_ok']) {
+        //TODO download latest posts (eg. 10) from user's groups and store them
+        //to variable to use in array ['posts'] in $app->render()
+        
+        $app->render('main.html',array('posts' => []));
+    } else {    
+        $app->render('main.html');
+    }
 });
 
 $app->get('/contact', function() use ($app) {
@@ -51,7 +59,11 @@ $app->post('/contact', function() use ($app) {
 
 $app->group('/user', function() use ($app) {
     $app->get('/register', function() use ($app) {
-        $app->render('user/register.html');
+        if($_SESSION['login_ok']) {
+            $app->redirect('./..');
+        } else {
+            $app->render('user/register.html');
+        }
     });
     $app->post('/register', function() use ($app) {
         $postData = $app->request->post();
@@ -138,7 +150,6 @@ $app->group('/group', function() use ($app) {
     
     $app->get('/list', function() use($app) {
         $groups = R::getAll("SELECT * FROM users,groups WHERE users.id = groups.owner");
-//        print_r($groups);
         
         $app->render('group/list.html', array('groups'=>$groups));
     });
@@ -170,6 +181,13 @@ $app->group('/group', function() use ($app) {
         $group = R::load('groups',$id);
         
         $app->render('group/view.html',array("posts" => $posts, "group" => $group));
+    });
+    
+    $app->post('/post/:id', function($id) use ($app) {
+        $postData = $app->request()->post();
+        //TODO check if post data are correct and, if correct, insert to
+        //dababase and reload to '/view/:id', otherwise -> render error
+        //message
     });
 });
 

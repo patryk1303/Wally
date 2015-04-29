@@ -1,4 +1,6 @@
-{include '_header.html'}
+{extends '_main/_index.html'}
+
+{block name='main'}
 
 <div class="alert alert-warning">
     <h2>Wymagane zalogowanie się</h2>
@@ -6,4 +8,4 @@
     <a href="{siteUrl url='user/login'}">zalogowanie się</a>
 </div>
 
-{include '_footer.html'}
+{/block}

@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Checks if user registration data are correct
+ * @param array $data POST data from register form
+ * @return boolean true where data are correct
+ */
 function CheckUserRegister($data) {
     $email = $data['email'];
     $passwd1 = md5($data['passwd1']);
@@ -8,6 +13,14 @@ function CheckUserRegister($data) {
     $surname = $data['surname'];
     $skype = $data['skype'];
     $phone = $data['phone'];
+    
+    if($passwd1!=$passwd2) {
+        return false;
+    }
+    
+    if(strlen($passwd1) < 8) {
+        return false;
+    }
     
     $correct = array(
         'email'     => 0,

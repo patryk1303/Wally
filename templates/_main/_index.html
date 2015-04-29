@@ -2,7 +2,6 @@
 <html lang="pl">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,9 +29,30 @@
 </head>
 
 <body>
-
     {* navigation *}
     {include "_main/_menu.html"}
     
-    {* #mainContainer START *}
     <div class="container" id="mainContainer">
+    
+    {block 'main'}
+    
+    {/block}
+    
+    <div class="row" id="footer">
+        <div class="footer">
+            &copy; Wally Team
+        </div>
+    </div>
+    
+    </div>
+    
+    <script src="{baseUrl}/js/jquery-1.11.2.min.js"></script>
+    <script src="{baseUrl}/js/bootstrap.min.js"></script>
+    <script src="{baseUrl}/js/nicEdit.js"></script>
+    
+    {block 'extra_scripts'}
+    
+    {/block}
+</body>
+
+</html>
