@@ -1,0 +1,27 @@
+/* 
+    Created on : 2015-05-01, 21:56:46
+    Author     : Patryk
+*/
+
+$borderColor:       rgb(27,35,197);
+
+#footer {
+    margin-top: 10px;
+    border-top: 1px solid grey;
+    padding: 10px;
+}
+
+#leftColumn {
+    width: 165px;
+    position: fixed;
+    height: 100%;
+    
+    padding-top: 20px;
+    
+    border-right: 1px solid $borderColor;
+    top: 51px;
+}
+
+.col-offset-200 {
+    padding-left: 200px;
+}

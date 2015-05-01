@@ -32,6 +32,15 @@ $view->parserExtensions = array($plug);
 
 $app->setName('Wally');
 
+$app->hook('slim.before.dispatch', function() use ($view) {
+    if($_SESSION['login_ok']) {
+        $user = R::load('users',$_SESSION['user_id']);
+        $userGroups = R::getAll("SELECT * FROM users,groups WHERE users.id = groups.owner");
+        $view->getInstance()->assign('user',$user);
+        $view->getInstance()->assign('userGroups',$userGroups);
+    }
+});
+
 $app->get('/', function() use ($app) {
     
     if($_SESSION['login_ok']) {

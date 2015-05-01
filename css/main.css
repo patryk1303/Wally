@@ -1,5 +1,21 @@
+/* 
+    Created on : 2015-05-01, 21:56:46
+    Author     : Patryk
+*/
 #footer {
-    margin-top: 10px;
-    border-top: 1px solid grey;
-    padding: 10px;
-}
+  margin-top: 10px;
+  border-top: 1px solid grey;
+  padding: 10px; }
+
+#leftColumn {
+  width: 165px;
+  position: fixed;
+  height: 100%;
+  padding-top: 20px;
+  border-right: 1px solid #1b23c5;
+  top: 51px; }
+
+.col-offset-200 {
+  padding-left: 200px; }
+
+/*# sourceMappingURL=main.css.map */

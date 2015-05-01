@@ -75,6 +75,8 @@ function CheckUserLogin($data) {
         $user = R::findOne('users', "email LIKE :email AND password LIKE :passwd",
                    array(':email' => $email,':passwd' => $passwd));
         $_SESSION['user_id'] = $user->id;
+        $_SESSION['first_name'] = $user->first_name;
+        $_SESSION['last_name'] = $user->last_name;
         $_SESSION['email'] = $user->email;
         $_SESSION['password'] = $user->password;
         $_SESSION['login_ok'] = true;

@@ -1,0 +1,22 @@
+<div class="row name">
+    {*<h4>{$smarty.session.first_name} {$smarty.session.last_name}</h4>*}
+    <h4>
+        {$user.first_name} {$user.last_name}
+    </h4>
+</div>
+
+<div class="row">
+    <h4>Twoje grupy</h4>
+    
+    <ul class="nav nav-pills nav-stacked">
+        {foreach $userGroups as $group}
+        
+        
+        <li>
+            <a href="{siteUrl url='/group/view/'}{$group.id}">{$group.name}</a>
+        </li>
+        
+        
+        {/foreach}
+    </ul>
+</div>
