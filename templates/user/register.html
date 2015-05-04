@@ -67,7 +67,7 @@
                     for(var i=0,len=errors.length;i<len;++i) {
                         outHTML += '<li>' + errors[i] + '</li>';
                     }
-                    outHTML += '</ul>'
+                    outHTML += '</ul>';
                     passwdCheckEl.html(outHTML);
                 } else {
                     $('#registerButton').attr('disabled', false);
@@ -76,8 +76,6 @@
                     outHTML = '<strong>Hasła są dobre!</strong><br>';
                     passwdCheckEl.html(outHTML);
                 }
-
-                console.log(pass1,pass2);
             }
 
             $('#passwd1').keyup(checkPasswords);

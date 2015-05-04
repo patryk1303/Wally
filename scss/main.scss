@@ -3,7 +3,10 @@
     Author     : Patryk
 */
 
-$borderColor:       rgb(27,35,197);
+$borderColor:       #40acff;
+$bkgColor:          rgba(73,194,255,0.5);
+
+//73c2ff
 
 #footer {
     margin-top: 10px;
@@ -12,16 +15,44 @@ $borderColor:       rgb(27,35,197);
 }
 
 #leftColumn {
-    width: 165px;
+    background-color: $bkgColor;
+    
+    /*width: 185px;*/
     position: fixed;
     height: 100%;
     
     padding-top: 20px;
+    padding-right: 60px;
+    padding-left: 60px;
     
-    border-right: 1px solid $borderColor;
+    /*border-right: 1px solid $borderColor;*/
     top: 51px;
+    left: 0;
 }
 
 .col-offset-200 {
     padding-left: 200px;
+}
+
+.col-offset-230 {
+    padding-left: 230px;
+}
+
+.navbar-blue {
+    background-color: $bkgColor;
+    /*border-bottom: none;*/
+    
+    .open > a, a:hover {
+        background-color: #eee !important;
+    }
+    
+    a {
+        color: #337AB7 !important;
+    }
+    
+    .padding-60-60 {
+        padding-left: 60px;
+        padding-right: 60px;
+    }
+    
 }

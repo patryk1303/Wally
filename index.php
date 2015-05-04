@@ -200,4 +200,11 @@ $app->group('/group', function() use ($app) {
     });
 });
 
+//section for JSON responses
+$app->group('/posts', function() use ($app) {
+    $app->get('/get-all-latest-posts', function() use ($app) {
+        echo 'laj,laj,laj';
+    });
+});
+
 $app->run();

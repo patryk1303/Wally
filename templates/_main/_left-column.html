@@ -13,10 +13,17 @@
         
         
         <li>
-            <a href="{siteUrl url='/group/view/'}{$group.id}">{$group.name}</a>
+            <a href="{siteUrl url='/group/view/'}{$group.id}">
+                {$group.name}
+                <span class="pull-right badge">4</span>
+            </a>
         </li>
         
         
         {/foreach}
+        <li class="nav-divider"></li>
+        <li>
+            <a href="{siteUrl url='/group/create'}">Stwórz grupę</a>
+        </li>
     </ul>
 </div>
