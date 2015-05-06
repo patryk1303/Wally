@@ -57,38 +57,42 @@
 
 {*get latests posts*}
 <script>
-    $.ajax({
-        method: "GET",
-        url: '{siteUrl url='/posts/get-posts-from-group/'}{$group.id}'
-      })
-        .done(function(response) {
-          var posts = JSON.parse(response);
-          var element = $('#latestsPosts');
-          var html = '';
-          
-          if(posts.length == 0) {
-              element.html('Brak postów');
-              return;
-          }
-          
-          for(var i=0,len=posts.length;i<len;++i) {
-            html += '<div class="panel panel-priority-'+posts[i].priority+'">';
+    function postsAsync() {
+        $.ajax({
+            method: "GET",
+            url: '{siteUrl url='/posts/get-posts-from-group/'}{$group.id}'
+          })
+            .done(function(response) {
+              var posts = JSON.parse(response);
+              var element = $('#latestsPosts');
+              var html = '';
 
-            html += '<div class="panel-body">';
-            html += posts[i].mesage;
-            html += '</div>';
-            
-            html += '<div class="panel-footer">';
-            html += '~ <a href="{siteUrl url="/user/profile/"}'+posts[i].user_id+'">';
-            html += posts[i].user_name;
-            html += '</a>'
-            html += '</div>';
+              if(posts.length == 0) {
+                  element.html('Brak postów');
+                  return;
+              }
 
-            html += '</div>';
-          }
-          
-          element.html(html);
-        });
+              for(var i=0,len=posts.length;i<len;++i) {
+                html += '<div class="panel panel-priority-'+posts[i].priority+'">';
+
+                html += '<div class="panel-body">';
+                html += posts[i].mesage;
+                html += '</div>';
+
+                html += '<div class="panel-footer">';
+                html += '~ <a href="{siteUrl url="/user/profile/"}'+posts[i].user_id+'">';
+                html += posts[i].user_name;
+                html += '</a>'
+                html += '</div>';
+
+                html += '</div>';
+              }
+
+              element.html(html);
+            });
+    }
+    
+    var checkPosts = setInterval(postsAsync,10000);
 </script>
 
 {/block}
