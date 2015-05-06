@@ -204,11 +204,14 @@ $app->group('/group', function() use ($app) {
     
     $app->post('/post/:id', function($groupId) use ($app) {
         $postData = $app->request()->post();
-        //TODO check if post data are correct and, if correct, insert to
-        //dababase and reload to '/view/:id', otherwise -> render error
-        //message
+        $data = CheckPostAdd($postData,$id);
+        $correct = $data[0];
+        $gID = $data[1];
+        
+        $app->render('group/create_post.html', array('correct'=>$correct,'id'=>$gID));
     });
 });
+
 
 //section for JSON responses
 $app->group('/posts', function() use ($app) {
