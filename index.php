@@ -12,6 +12,7 @@ require_once 'lib/rb.php';
 R::setup('mysql:host=localhost;dbname=Wally', 'root', '');
 require_once 'Controllers/RegisterControllers.php';
 require_once 'lib/sessions.php';
+require_once 'lib/headers.php';
 
 $config = array(
     'view' => new \Slim\Views\Smarty(),
@@ -204,11 +205,11 @@ $app->group('/group', function() use ($app) {
     
     $app->post('/post/:id', function($groupId) use ($app) {
         $postData = $app->request()->post();
-        $data = CheckPostAdd($postData,$id);
+        $data = CheckPostAdd($postData,$groupId);
         $correct = $data[0];
         $gID = $data[1];
         
-        $app->render('group/create_post.html', array('correct'=>$correct,'id'=>$gID));
+        $app->redirect("./../view/$groupId");
     });
 });
 
@@ -217,6 +218,11 @@ $app->group('/group', function() use ($app) {
 $app->group('/posts', function() use ($app) {
     $app->get('/get-all-latest-posts', function() use ($app) {
         echo 'laj,laj,laj';
+    });
+    $app->get('/get-posts-from-group/:groupId', function($groupId) use ($app) {
+//        JSONheader();
+        $posts = getPosts($groupId);
+        echo $posts;
     });
 });
 

@@ -1,7 +1,6 @@
 <?php
 
 function CheckPostAdd($data,$groupId) {
-
     $message = $data['message'];
     $priority = $data['priority'];
     
@@ -37,4 +36,24 @@ function addPost($_content, $_userId, $_priority , $_groupId) {
     $id = R::store($post);
     
     return $id;
+}
+
+function getPosts($_groupId) {
+    $posts = R::find('posts', 'group_id = :group_id ORDER BY id DESC', array(':group_id'=>$_groupId));
+    $JSONreturn = array();
+    
+    foreach($posts as $post) {
+//        print_r($post);
+        
+        $user = R::load('users', $post->user_id);
+        $JSONreturn[] = array(
+            "id"    =>  $post->id,
+            "mesage"=>  $post->message,
+            "priority"  =>  $post->priority,
+            "user_name" =>  $user->first_name . ' ' . $user->last_name,
+            "user_id"   =>  $user->id
+        );
+    }
+    
+    return json_encode($JSONreturn);
 }

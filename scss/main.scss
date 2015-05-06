@@ -28,6 +28,8 @@ $bkgColor:          rgba(73,194,255,0.5);
     /*border-right: 1px solid $borderColor;*/
     top: 51px;
     left: 0;
+    
+    z-index: 9999;
 }
 
 .col-offset-200 {
@@ -56,3 +58,10 @@ $bkgColor:          rgba(73,194,255,0.5);
     }
     
 }
+
+// posts priorities
+.panel-priority-0 {border: 1px solid black;}
+.panel-priority-1 {border: 1px solid gray;}
+.panel-priority-2 {border: 1px solid lightgray;}
+.panel-priority-3 {border: 1px solid yellow;}
+.panel-priority-4 {border: 1px solid red;}

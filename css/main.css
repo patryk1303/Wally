@@ -17,7 +17,8 @@
   padding-left: 60px;
   /*border-right: 1px solid $borderColor;*/
   top: 51px;
-  left: 0; }
+  left: 0;
+  z-index: 9999; }
 
 .col-offset-200 {
   padding-left: 200px; }
@@ -35,5 +36,20 @@
   .navbar-blue .padding-60-60 {
     padding-left: 60px;
     padding-right: 60px; }
+
+.panel-priority-0 {
+  border: 1px solid black; }
+
+.panel-priority-1 {
+  border: 1px solid gray; }
+
+.panel-priority-2 {
+  border: 1px solid lightgray; }
+
+.panel-priority-3 {
+  border: 1px solid yellow; }
+
+.panel-priority-4 {
+  border: 1px solid red; }
 
 /*# sourceMappingURL=main.css.map */
