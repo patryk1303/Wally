@@ -27,15 +27,30 @@
     </div>
 </form>
 
+<div class="panel panel-success">
+    <div class="panel-heading">
+        Ostatnie posty
+    </div>
+    <div class="panel-body" id="latestsPosts">
+        
+    </div>
+</div>
+
 {/block}
 
 {block name='extra_scripts' prepend}
 
+{*nicEditor*}
 <script>
     new nicEditor({ldelim}
         buttonList : ['fontSize','bold','italic','underline','strikeThrough','subscript','superscript','html','image'],
         iconsPath : '{baseUrl}/img/nicEditorIcons.gif'
         {rdelim}).panelInstance('message');
+</script>
+
+{*get latests posts*}
+<script>
+    
 </script>
 
 {/block}

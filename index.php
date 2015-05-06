@@ -75,15 +75,25 @@ $app->group('/user', function() use ($app) {
         }
     });
     $app->post('/register', function() use ($app) {
-        $postData = $app->request->post();
-        $correct = CheckUserRegister($postData);
+        if($_SESSION['login_ok']) {
+            $app->redirect ('./..');
+        }
         
-        $app->render('user/register_post.html', array('correct'=>$correct));
+        $postData = $app->request->post();
+        $data = CheckUserRegister($postData);
+        
+        $app->render('user/register_post.html', array('correct'=>$data[0], 'errors'=>$data[1]));
     });
     $app->get('/login', function() use ($app) {
+        if($_SESSION['login_ok']) {
+            $app->redirect ('./..');
+        }
         $app->render('user/login.html');
     });
     $app->post('/login', function() use ($app) {
+        if($_SESSION['login_ok']) {
+            $app->redirect ('./..');
+        }
         $postData = $app->request->post();
         $logged_ok = CheckUserLogin($postData);
         
@@ -192,7 +202,7 @@ $app->group('/group', function() use ($app) {
         $app->render('group/view.html',array("posts" => $posts, "group" => $group));
     });
     
-    $app->post('/post/:id', function($id) use ($app) {
+    $app->post('/post/:id', function($groupId) use ($app) {
         $postData = $app->request()->post();
         //TODO check if post data are correct and, if correct, insert to
         //dababase and reload to '/view/:id', otherwise -> render error
