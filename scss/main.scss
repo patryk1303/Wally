@@ -4,7 +4,7 @@
 */
 
 $borderColor:       #40acff;
-$bkgColor:          rgba(73,194,255,0.5);
+$bkgColor:          rgba(164,224,255,1);
 
 //73c2ff
 
@@ -29,7 +29,10 @@ $bkgColor:          rgba(73,194,255,0.5);
     top: 51px;
     left: 0;
     
-    z-index: 9999;
+}
+
+.left-column {
+    position: fixed;
 }
 
 .col-offset-200 {
@@ -59,9 +62,58 @@ $bkgColor:          rgba(73,194,255,0.5);
     
 }
 
+.panel-heading {
+    .avatar {
+        height: 20px;
+    }
+}
+
 // posts priorities
-.panel-priority-0 {border: 1px solid black;}
-.panel-priority-1 {border: 1px solid gray;}
-.panel-priority-2 {border: 1px solid lightgray;}
-.panel-priority-3 {border: 1px solid yellow;}
-.panel-priority-4 {border: 1px solid red;}
+.panel-priority {
+    
+    .panel-body {
+        max-height: 100px;
+        overflow-y: auto;
+    }
+    
+    .buttons {
+        opacity: 0;
+        transition: opacity 0.3s linear;
+    }
+    
+    &:hover .buttons {
+        opacity: 1;
+    }
+}
+.panel-priority-0 {
+    border: 1px solid black;
+    .panel-footer {
+        background-color: lighten(black,20%);
+        color: white;
+    }
+}
+.panel-priority-1 {
+    border: 1px solid gray;
+    .panel-footer {
+        background-color: lighten(gray,20%);
+        color: white;
+    }
+}
+.panel-priority-2 {
+    border: 1px solid lightgray;
+    .panel-footer {
+        background-color: lighten(lightgray,20%);
+    }
+}
+.panel-priority-3 {
+    border: 1px solid yellow;
+    .panel-footer {
+        background-color: lighten(yellow,20%);
+    }
+}
+.panel-priority-4 {
+    border: 1px solid red;
+    .panel-footer {
+        background-color: lighten(red,20%);
+    }
+}

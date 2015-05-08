@@ -38,6 +38,7 @@ $app->hook('slim.before.dispatch', function() use ($view) {
         $user = R::load('users',$_SESSION['user_id']);
         $userGroups = R::getAll("SELECT * FROM users,groups WHERE users.id = groups.owner");
         $view->getInstance()->assign('user',$user);
+        $view->getInstance()->assign('hash',md5($user->email));
         $view->getInstance()->assign('userGroups',$userGroups);
     }
 });
@@ -108,6 +109,7 @@ $app->group('/user', function() use ($app) {
                 'name'     => $user->first_name,
                 'surname'  => $user->last_name,
                 'email'    => $user->email,
+                'hemail'   => md5($user->email),
                 'skype'    => $user->skype,
                 'tel'      => $user->phone_number
             );
@@ -168,18 +170,6 @@ $app->group('/group', function() use ($app) {
         $app->redirect('./list');
     });
     
-    $app->get('/list', function() use($app) {
-        $groups = R::getAll("SELECT * FROM users,groups WHERE users.id = groups.owner");
-        
-        $app->render('group/list.html', array('groups'=>$groups));
-    });
-    $app->get('/your', function() use($app) {
-        $groups = R::getAll("SELECT * FROM users,groups WHERE users.id = groups.owner AND groups.owner = :uid",
-                array(":uid" => $_SESSION['user_id']));
-
-        $app->render('group/your.html', array('groups'=>$groups));
-    });
-    
     $app->get('/create', function() use ($app) {
         if($_SESSION['login_ok']) {
             $app->render('group/create.html');
@@ -197,10 +187,16 @@ $app->group('/group', function() use ($app) {
     });
     
     $app->get('/view/:id', function($id) use ($app) {
-        $posts = R::getAll("SELECT * FROM posts,groups WHERE group_id = group.id");
-        $group = R::load('groups',$id);
         
-        $app->render('group/view.html',array("posts" => $posts, "group" => $group));
+        if($_SESSION['login_ok']) {
+            $posts = R::getAll("SELECT * FROM posts,groups WHERE group_id = group.id");
+            $group = R::load('groups',$id);
+
+            $app->render('group/view.html',array("posts" => $posts, "group" => $group));
+        } else {
+            $app->render('common/login_required.html');
+        }
+        
     });
     
     $app->post('/post/:id', function($groupId) use ($app) {

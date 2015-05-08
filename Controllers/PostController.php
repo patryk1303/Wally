@@ -32,6 +32,7 @@ function addPost($_content, $_userId, $_priority , $_groupId) {
     $post->message = $_content;
     $post->user_id = $_userId;
     $post->priority = $_priority;
+    $post->postedTime = R::isoDateTime();
     $post->group_id = $_groupId;
     $id = R::store($post);
     
@@ -51,6 +52,7 @@ function getPosts($_groupId) {
             "mesage"=>  $post->message,
             "priority"  =>  $post->priority,
             "user_name" =>  $user->first_name . ' ' . $user->last_name,
+            "posted_time"   =>  $post->postedTime,
             "user_id"   =>  $user->id
         );
     }
