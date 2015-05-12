@@ -12,6 +12,7 @@ require_once 'lib/rb.php';
 R::setup('mysql:host=localhost;dbname=Wally', 'root', '');
 require_once 'Controllers/RegisterControllers.php';
 require_once 'lib/sessions.php';
+require_once 'lib/headers.php';
 
 $config = array(
     'view' => new \Slim\Views\Smarty(),
@@ -31,6 +32,16 @@ $plug = dirname(__FILE__) . '/SmartyPlugins';
 $view->parserExtensions = array($plug);
 
 $app->setName('Wally');
+
+$app->hook('slim.before.dispatch', function() use ($view) {
+    if($_SESSION['login_ok']) {
+        $user = R::load('users',$_SESSION['user_id']);
+        $userGroups = R::getAll("SELECT * FROM users,groups WHERE users.id = groups.owner");
+        $view->getInstance()->assign('user',$user);
+        $view->getInstance()->assign('hash',md5($user->email));
+        $view->getInstance()->assign('userGroups',$userGroups);
+    }
+});
 
 $app->get('/', function() use ($app) {
     
@@ -66,15 +77,25 @@ $app->group('/user', function() use ($app) {
         }
     });
     $app->post('/register', function() use ($app) {
-        $postData = $app->request->post();
-        $correct = CheckUserRegister($postData);
+        if($_SESSION['login_ok']) {
+            $app->redirect ('./..');
+        }
         
-        $app->render('user/register_post.html', array('correct'=>$correct));
+        $postData = $app->request->post();
+        $data = CheckUserRegister($postData);
+        
+        $app->render('user/register_post.html', array('correct'=>$data[0], 'errors'=>$data[1]));
     });
     $app->get('/login', function() use ($app) {
+        if($_SESSION['login_ok']) {
+            $app->redirect ('./..');
+        }
         $app->render('user/login.html');
     });
     $app->post('/login', function() use ($app) {
+        if($_SESSION['login_ok']) {
+            $app->redirect ('./..');
+        }
         $postData = $app->request->post();
         $logged_ok = CheckUserLogin($postData);
         
@@ -88,6 +109,7 @@ $app->group('/user', function() use ($app) {
                 'name'     => $user->first_name,
                 'surname'  => $user->last_name,
                 'email'    => $user->email,
+                'hemail'   => md5($user->email),
                 'skype'    => $user->skype,
                 'tel'      => $user->phone_number
             );
@@ -148,18 +170,6 @@ $app->group('/group', function() use ($app) {
         $app->redirect('./list');
     });
     
-    $app->get('/list', function() use($app) {
-        $groups = R::getAll("SELECT * FROM users,groups WHERE users.id = groups.owner");
-        
-        $app->render('group/list.html', array('groups'=>$groups));
-    });
-    $app->get('/your', function() use($app) {
-        $groups = R::getAll("SELECT * FROM users,groups WHERE users.id = groups.owner AND groups.owner = :uid",
-                array(":uid" => $_SESSION['user_id']));
-
-        $app->render('group/your.html', array('groups'=>$groups));
-    });
-    
     $app->get('/create', function() use ($app) {
         if($_SESSION['login_ok']) {
             $app->render('group/create.html');
@@ -177,17 +187,38 @@ $app->group('/group', function() use ($app) {
     });
     
     $app->get('/view/:id', function($id) use ($app) {
-        $posts = R::getAll("SELECT * FROM posts,groups WHERE group_id = group.id");
-        $group = R::load('groups',$id);
         
-        $app->render('group/view.html',array("posts" => $posts, "group" => $group));
+        if($_SESSION['login_ok']) {
+            $posts = R::getAll("SELECT * FROM posts,groups WHERE group_id = group.id");
+            $group = R::load('groups',$id);
+
+            $app->render('group/view.html',array("posts" => $posts, "group" => $group));
+        } else {
+            $app->render('common/login_required.html');
+        }
+        
     });
     
-    $app->post('/post/:id', function($id) use ($app) {
+    $app->post('/post/:id', function($groupId) use ($app) {
         $postData = $app->request()->post();
-        //TODO check if post data are correct and, if correct, insert to
-        //dababase and reload to '/view/:id', otherwise -> render error
-        //message
+        $data = CheckPostAdd($postData,$groupId);
+        $correct = $data[0];
+        $gID = $data[1];
+        
+        $app->redirect("./../view/$groupId");
+    });
+});
+
+
+//section for JSON responses
+$app->group('/posts', function() use ($app) {
+    $app->get('/get-all-latest-posts', function() use ($app) {
+        echo 'laj,laj,laj';
+    });
+    $app->get('/get-posts-from-group/:groupId', function($groupId) use ($app) {
+//        JSONheader();
+        $posts = getPosts($groupId);
+        echo $posts;
     });
 });
 

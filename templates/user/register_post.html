@@ -11,7 +11,14 @@
     </div>
 {else}
     <div class="alert alert-danger">
-        <strong>Wystapił błąd podczas rejestracji</strong>
+        <strong>Wystapił błąd podczas rejestracji</strong><br>
+        Znalezione błędy:
+        <ul>
+            {foreach $errors as $error}
+            <li>{$error}</li>
+            {/foreach}
+        </ul>
+        <a href="{siteUrl url='/user/register'}">spróbuj ponownie</a>
     </div>
 {/if}
 

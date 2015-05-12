@@ -30,25 +30,68 @@
 
 <body>
     {* navigation *}
-    {include "_main/_menu.html"}
+    {include '_main/_menu.html'}
     
     <div class="container" id="mainContainer">
     
-    {block 'main'}
-    
-    {/block}
-    
-    <div class="row" id="footer">
-        <div class="footer">
-            &copy; Wally Team
+        <div class="row">
+        
+            {if $smarty.session.login_ok && isset($user)}
+            
+            <div class="col-sm-3">
+                
+                <div class="panel panel-info">
+                    
+                    <div class="panel-heading">
+                        <h4>
+                            <img class="avatar" alt="avatar" src="http://www.gravatar.com/avatar/{$hash}?d=wavatar">
+                            {$user.first_name} {$user.last_name}
+                        </h4>
+                    </div>
+                    
+                    <div class="panel-body">
+                        {include '_main/_left-column.html'}
+                    </div>
+
+                    <div class="panel-footer">
+                        <div class="footer">
+                            &copy; Wally Team
+                        </div>
+                    </div>
+                
+                </div>
+                
+            </div>
+            
+            <div class="col-sm-9">
+                {block 'main'}
+
+                {/block}
+            </div>
+            
+            {else}
+            <div>
+                {block 'main'}
+
+                {/block}
+            </div>
+            {/if}
+        
         </div>
-    </div>
+        
+        {if !$smarty.session.login_ok && !isset($user)}
+        <div class="row" id="footer">
+            <div class="footer">
+                &copy; Wally Team
+            </div>
+        </div>
+        {/if}
     
     </div>
     
     <script src="{baseUrl}/js/jquery-1.11.2.min.js"></script>
     <script src="{baseUrl}/js/bootstrap.min.js"></script>
-    <script src="{baseUrl}/js/nicEdit.js"></script>
+    <script src="{baseUrl}/js/tinymce.min.js"></script>
     
     {block 'extra_scripts'}
     

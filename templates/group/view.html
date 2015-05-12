@@ -5,37 +5,115 @@
 <h2>{$group.name}</h2>
 
 <form action="{siteUrl url='group/post/'}{$group.id}" method="post">
-    <div class="panel panel-info">
-        <div class="panel-heading">
-            Dodaj wiadomość
-        </div>
-        <div class="panel-body">
-            <div class="form-group">
-                <label for="message">Treść wiadomości:</label>
-                <textarea name="message" id="message" class="form-control"></textarea>
-                <label for="priority">Priorytet:</label>
-                <select id="piority" name="piority" class="form-control">
-                    <option value="0">Bardzo niski</option>
-                    <option value="1">Niski</option>
-                    <option value="2">Średni</option>
-                    <option value="3">Wysoki</option>
-                    <option value="4">Bardzo wysoki</option>
-                </select>
+    <div class="panel-group" id="addMessage" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <a data-toggle="collapse" data-parent="#addMessage" href="#messageCollapse" aria-expanded="false" aria-controls="collapseOne">
+                    Dodaj wiadomość
+                </a>
             </div>
-            <button class="btn btn-info" type="submit">Dodaj wiadomość</button>
+            <div id="messageCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label for="message">Treść wiadomości:</label>
+                        <textarea name="message" id="message" class="form-control"></textarea>
+                        <span class="alert" id="mesageStatus"></span>
+                        <label for="priority">Priorytet:</label>
+                        <select id="priority" name="priority" class="form-control">
+                            <option value="0">Bardzo niski</option>
+                            <option value="1">Niski</option>
+                            <option value="2">Średni</option>
+                            <option value="3">Wysoki</option>
+                            <option value="4">Bardzo wysoki</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-info" type="submit">Wyślij</button>
+                </div>
+            </div>
         </div>
     </div>
 </form>
+
+<div class="panel panel-success">
+    <div class="panel-heading">
+        Ostatnie posty
+    </div>
+    <div class="panel-body" id="latestsPosts">
+        <img src="{baseUrl}/img/loading.gif" alt="loading">
+    </div>
+</div>
 
 {/block}
 
 {block name='extra_scripts' prepend}
 
+{*tinyMCE*}
 <script>
-    new nicEditor({ldelim}
-        buttonList : ['fontSize','bold','italic','underline','strikeThrough','subscript','superscript','html','image'],
-        iconsPath : '{baseUrl}/img/nicEditorIcons.gif'
-        {rdelim}).panelInstance('message');
+    tinymce.init({
+        selector: '#message',
+        toolbar: ''
+    });
+</script>
+
+{*get latests posts*}
+<script>
+    function postsAsync() {
+        $.ajax({
+            method: "GET",
+            url: '{siteUrl url='/posts/get-posts-from-group/'}{$group.id}'
+          })
+            .done(function(response) {
+              var posts = JSON.parse(response);
+              var element = $('#latestsPosts');
+              var html = '';
+
+              if(posts.length == 0) {
+                  element.html('Brak postów');
+                  return;
+              }
+
+              for(var i=0,len=posts.length;i<len;++i) {
+                html += '<div class="panel panel-priority panel-priority-'+posts[i].priority+'">';
+
+                html += '<div class="panel-body">';
+                html += posts[i].mesage;
+                html += '</div>';
+
+                html += '<div class="panel-footer">';
+                
+                html += '<div class="pull-left">';
+                html += '~ <a href="{siteUrl url="/user/profile/"}'+posts[i].user_id+'">';
+                html += posts[i].user_name;
+                html += '</a>'
+                html += '</div>';
+                
+                html += '<div class="pull-right">';
+                
+                
+                html += '<span class="buttons">';
+                html += '<a href="" class="glyphicon glyphicon-pencil btn btn-link"></a>';
+                html += '<a href="" class="glyphicon glyphicon-remove btn btn-link"></a>';
+                html += '</span>';
+                
+                html += '<span class="time">';
+                html += posts[i].posted_time;
+                html += '</span>';
+                
+                html += '</div>';
+                
+                html += '<div class="clearfix"></div>';
+                
+                html += '</div>';
+
+                html += '</div>';
+              }
+
+              element.html(html);
+            });
+    }
+    
+    postsAsync();
+    var checkPosts = setInterval(postsAsync,10000);
 </script>
 
 {/block}

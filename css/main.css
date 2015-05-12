@@ -1,5 +1,81 @@
+/* 
+    Created on : 2015-05-01, 21:56:46
+    Author     : Patryk
+*/
 #footer {
-    margin-top: 10px;
-    border-top: 1px solid grey;
-    padding: 10px;
-}
+  margin-top: 10px;
+  border-top: 1px solid grey;
+  padding: 10px; }
+
+#leftColumn {
+  background-color: #a4e0ff;
+  /*width: 185px;*/
+  position: fixed;
+  height: 100%;
+  padding-top: 20px;
+  padding-right: 60px;
+  padding-left: 60px;
+  /*border-right: 1px solid $borderColor;*/
+  top: 51px;
+  left: 0; }
+
+.left-column {
+  position: fixed; }
+
+.col-offset-200 {
+  padding-left: 200px; }
+
+.col-offset-230 {
+  padding-left: 230px; }
+
+.navbar-blue {
+  background-color: #a4e0ff;
+  /*border-bottom: none;*/ }
+  .navbar-blue .open > a, .navbar-blue a:hover {
+    background-color: #eee !important; }
+  .navbar-blue a {
+    color: #337AB7 !important; }
+  .navbar-blue .padding-60-60 {
+    padding-left: 60px;
+    padding-right: 60px; }
+
+.panel-heading .avatar {
+  height: 20px; }
+
+.panel-priority .panel-body {
+  max-height: 100px;
+  overflow-y: auto; }
+.panel-priority .buttons {
+  opacity: 0;
+  transition: opacity 0.3s linear; }
+.panel-priority:hover .buttons {
+  opacity: 1; }
+
+.panel-priority-0 {
+  border: 1px solid black; }
+  .panel-priority-0 .panel-footer {
+    background-color: #333333;
+    color: white; }
+
+.panel-priority-1 {
+  border: 1px solid gray; }
+  .panel-priority-1 .panel-footer {
+    background-color: #b3b3b3;
+    color: white; }
+
+.panel-priority-2 {
+  border: 1px solid lightgray; }
+  .panel-priority-2 .panel-footer {
+    background-color: white; }
+
+.panel-priority-3 {
+  border: 1px solid yellow; }
+  .panel-priority-3 .panel-footer {
+    background-color: #ffff66; }
+
+.panel-priority-4 {
+  border: 1px solid red; }
+  .panel-priority-4 .panel-footer {
+    background-color: #ff6666; }
+
+/*# sourceMappingURL=main.css.map */

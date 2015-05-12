@@ -14,12 +14,14 @@ function CheckUserRegister($data) {
     $skype = $data['skype'];
     $phone = $data['phone'];
     
+    $errors = array();
+    
     if($passwd1!=$passwd2) {
-        return false;
+        $errors[] = "Hasła są różne";
     }
     
     if(strlen($passwd1) < 8) {
-        return false;
+        $errors[] = "Hasło musi mieć 8 znaków lub więcej";
     }
     
     $correct = array(
@@ -37,15 +39,23 @@ function CheckUserRegister($data) {
     }
 
     $c = count(array_unique($correct));
-    if ($c == 1) {
+    if ($c == 1 && count($errors) == 0) {
         if ($correct['email'] == 1) {
+            
+            $emails = R::find('users', "email LIKE :email", array(":email" => $email));
+            
+            if (count($emails) > 0) {
+                $errors[] = "Taki użytkownik już istnieje";
+                return array(false, $errors);
+            }
+            
             registerUser($email,$passwd1,$name,$surname,$skype,$phone);
-            return true;
+            return array(true, array());
         }
-        return false;
+        return array(false, $errors);
     }
     
-    return false;
+    return array(false, $errors);
 }
 
 function registerUser($email,$passwd,$name,$surname,$skype,$phone) {
@@ -75,6 +85,8 @@ function CheckUserLogin($data) {
         $user = R::findOne('users', "email LIKE :email AND password LIKE :passwd",
                    array(':email' => $email,':passwd' => $passwd));
         $_SESSION['user_id'] = $user->id;
+        $_SESSION['first_name'] = $user->first_name;
+        $_SESSION['last_name'] = $user->last_name;
         $_SESSION['email'] = $user->email;
         $_SESSION['password'] = $user->password;
         $_SESSION['login_ok'] = true;

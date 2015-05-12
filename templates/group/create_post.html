@@ -6,13 +6,13 @@
 
 {if $correct}
 <div class="alert alert-success">
-    <strong>Pomyślnie utworzono grupę!</strong><br>
-    Jeśli chcesz, możesz <a href="{siteUrl url='/group/view/'}{$id}">zobaczyć grupę</a>
+    <strong>Pomyślnie dodano grupę!</strong><br>
+    Jeśli chcesz, możesz <a href="{siteUrl url='/group/view/'}{$id}">wrócić do grupy</a>
 </div>
 {else}
 <div class="alert alert-danger">
     <strong>Wystąpił błąd</strong>
-    Wystapił błąd podczas tworzenia grupy (niepoprawna nazwa, itp.). Jeśli chcesz, możesz <a href="{siteUrl url='group/create'}">spróbować ponownie</a>
+    Wystapił błąd podczas dodawania grupy (niepoprawna treść). Jeśli chcesz, możesz spróbować ponownie.
 </div>
 {/if}
 
