@@ -2,7 +2,7 @@
 
 {block name='main'}
 
-<h2>Zarejestruj się</h2>
+<h2>Rejestracja</h2>
 
 <form action="{siteUrl url='user/register'}" method="post" class="">
     <div class="form-group">
@@ -51,17 +51,17 @@
                 passwdCheckEl.html('');
                 
                 if(pass1!==pass2) {
-                    errors.push('hasła są nierówne');
+                    errors.push('Podane hasła nie są jednakowe');
                 }
                 if(pass1.length < 8) {
-                    errors.push('hasło jest za krótkie');
+                    errors.push('Podane hasło jest za krótkie');
                 }
                 
                 if(errors.length > 0) {
                     $('#registerButton').attr('disabled', true);
                     passwdCheckEl.removeClass('alert-success');
                     passwdCheckEl.addClass('alert-danger');
-                    outHTML = '<strong>Błędne hasła!</strong><br>';
+                    outHTML = '<strong>Błąd</strong><br>';
                     outHTML += 'Wykryte problemy:';
                     outHTML += '<ul>';
                     for(var i=0,len=errors.length;i<len;++i) {
@@ -69,12 +69,12 @@
                     }
                     outHTML += '</ul>';
                     passwdCheckEl.html(outHTML);
-                } else {
+                }
+                else {
                     $('#registerButton').attr('disabled', false);
                     passwdCheckEl.removeClass('alert-danger');
                     passwdCheckEl.addClass('alert-success');
-                    outHTML = '<strong>Hasła są dobre!</strong><br>';
-                    passwdCheckEl.html(outHTML);
+                    passwdCheckEl.html('Hasła się zgadzają.')
                 }
             }
 
