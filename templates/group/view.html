@@ -14,10 +14,11 @@
             </div>
             <div id="messageCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
                 <div class="panel-body">
+                    <input type="hidden" id="postID" name="postID" value="-1" readonly="true">
                     <div class="form-group">
                         <label for="message">Treść wiadomości:</label>
                         <textarea name="message" id="message" class="form-control"></textarea>
-                        <span class="alert" id="mesageStatus"></span>
+                        <!--<span class="alert" id="mesageStatus"></span>-->
                         <label for="priority">Priorytet:</label>
                         <select id="priority" name="priority" class="form-control">
                             <option value="0">Bardzo niski</option>
@@ -36,7 +37,7 @@
 
 <div class="panel panel-success">
     <div class="panel-heading">
-        Ostatnie posty
+        Ostatnie wiadomości
     </div>
     <div class="panel-body" id="latestsPosts">
         <img src="{baseUrl}/img/loading.gif" alt="loading">
@@ -57,6 +58,26 @@
 
 {*get latests posts*}
 <script>
+    function editMessage(messageId) {
+        $('#postID').val(messageId);
+        $('#messageCollapse').collapse();
+        
+        $.ajax({
+            method: 'GET',
+            url: '{siteURL url='/posts/get-post/'}' + messageId
+        })
+        .done(function(response) {
+            var json = JSON.parse(response);
+            tinymce.get('message').setContent(json.message);
+            $('#priority option[value='+json.priority+']').attr('selected','selected');
+            $(window).scrollTo($('#addMessage'),500);
+        });
+    }
+    
+    function deleteMessage(messageId) {
+        //TODO add message deletion with userID control
+    }
+
     function postsAsync() {
         $.ajax({
             method: "GET",
@@ -68,7 +89,7 @@
               var html = '';
 
               if(posts.length == 0) {
-                  element.html('Brak postów');
+                  element.html('Brak wiadomości');
                   return;
               }
 
@@ -76,33 +97,36 @@
                 html += '<div class="panel panel-priority panel-priority-'+posts[i].priority+'">';
 
                 html += '<div class="panel-body">';
-                html += posts[i].mesage;
+                html += posts[i].message;
                 html += '</div>';
 
                 html += '<div class="panel-footer">';
-                
+
                 html += '<div class="pull-left">';
                 html += '~ <a href="{siteUrl url="/user/profile/"}'+posts[i].user_id+'">';
                 html += posts[i].user_name;
-                html += '</a>'
+                html += '</a>';
                 html += '</div>';
-                
+
                 html += '<div class="pull-right">';
-                
-                
-                html += '<span class="buttons">';
-                html += '<a href="" class="glyphicon glyphicon-pencil btn btn-link"></a>';
-                html += '<a href="" class="glyphicon glyphicon-remove btn btn-link"></a>';
-                html += '</span>';
-                
-                html += '<span class="time">';
-                html += posts[i].posted_time;
-                html += '</span>';
-                
+
+                if(posts[i].user_id == {$user.id}) {
+                    html += '<span class="buttons">';
+                    html += '<button class="glyphicon glyphicon-pencil btn btn-link" onclick="editMessage('+posts[i].id+')"></button>';
+                    html += '<button class="glyphicon glyphicon-remove btn btn-link"></button>';
+                    html += '</span>';
+                }
+
+                if(posts[i].posted_time != null && posts[i].posted_time != undefined) {
+                    html += '<span class="time">';
+                    html += posts[i].posted_time;
+                    html += '</span>';
+                }
+
                 html += '</div>';
-                
+
                 html += '<div class="clearfix"></div>';
-                
+
                 html += '</div>';
 
                 html += '</div>';
@@ -111,7 +135,7 @@
               element.html(html);
             });
     }
-    
+
     postsAsync();
     var checkPosts = setInterval(postsAsync,10000);
 </script>

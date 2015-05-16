@@ -201,6 +201,7 @@ $app->group('/group', function() use ($app) {
     
     $app->post('/post/:id', function($groupId) use ($app) {
         $postData = $app->request()->post();
+        print_r($postData);
         $data = CheckPostAdd($postData,$groupId);
         $correct = $data[0];
         $gID = $data[1];
@@ -212,6 +213,9 @@ $app->group('/group', function() use ($app) {
 
 //section for JSON responses
 $app->group('/posts', function() use ($app) {
+    $app->get('/get-post/:id', function($id) use ($app) {
+        echo getPost($id);
+    });
     $app->get('/get-all-latest-posts', function() use ($app) {
         echo 'laj,laj,laj';
     });
