@@ -3,15 +3,30 @@
 {block name='main'}
 
 {if $smarty.session.login_ok}
-<h2>Ostatnie posty z grup</h2>
-
-    {*TODO display latest posts from $posts*}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2>Ostatnie wiadomości z grup</h2>
+    </div>
+    <div class="panel-body" id="allLatestsPosts">
+        
+    </div>
+</div>
 {else}
 <div class="jumbotron">
     <h1>Wally</h1>
     <p class="lead">Prosty i szybki sposób na komunikację w grupach.</p>
     <p><a href="{siteUrl url='/user/login'}">Zaloguj się</a> lub <a href="{siteUrl url='/user/register'}">załóż konto</a>.</p>
 </div>
+{/if}
+
+{/block}
+
+{block name='extra_scripts' prepend}
+
+{if $smarty.session.login_ok}
+
+<script src="{siteUrl url='/js/all_latests_posts.js'}"></script>
+
 {/if}
 
 {/block}

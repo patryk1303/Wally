@@ -2,6 +2,8 @@
 
 {block name='main'}
 
+{include 'common/confirm_delete.html'}
+
 <h2>{$group.name}</h2>
 
 <form action="{siteUrl url='group/post/'}{$group.id}" method="post">
@@ -29,18 +31,50 @@
                         </select>
                     </div>
                     <button class="btn btn-info" type="submit">Wyślij</button>
+                    <button class="btn btn-warning" type="button" id="cancelEdit">Anuluj edycję</button>
                 </div>
             </div>
         </div>
     </div>
 </form>
 
-<div class="panel panel-success">
-    <div class="panel-heading">
-        Ostatnie wiadomości
+<div class="panel-group" id="lastMesages" role="tablist" aria-multiselectable="true">
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <a data-toggle="collapse" data-parent="#lastMesages" href="#messageCollapse1" aria-expanded="false" aria-controls="collapseOne">
+                Ostatnie wiadomości
+            </a>
+        </div>
+        <div id="messageCollapse1" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+            <div class="panel-body" id="latestsPosts">
+                <img src="{baseUrl}/img/loading.gif" alt="loading">
+            </div>
+        </div>
     </div>
-    <div class="panel-body" id="latestsPosts">
-        <img src="{baseUrl}/img/loading.gif" alt="loading">
+</div>
+
+<div class="panel-group" id="groupUsers" role="tablist" aria-multiselectable="true">
+    <div class="panel panel-warning">
+        <div class="panel-heading">
+            <a data-toggle="collapse" data-parent="#groupUsers" href="#usersCollapse" aria-expanded="false" aria-controls="collapseOne">
+                Członkowie grupy
+            </a>
+        </div>
+        <div id="usersCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+            <div class="panel-body" id="groupUsers1">
+                <ul class="list-inline">
+                {foreach $members as $member}
+                    <li><a href="{siteUrl url='user/profile/'}{$member.id}">{$member.first_name} {$member.last_name}</a></li>
+                {/foreach}
+                </ul>
+            </div>
+            
+            <div class="panel-footer">
+                <a class="btn btn-info">
+                    Dodaj członka do grupy
+                </a>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -55,8 +89,9 @@
         toolbar: ''
     });
 </script>
-
 {*get latests posts*}
+<script src="{baseUrl}/js/group/groupPosts.js"></script>
+
 <script>
     function editMessage(messageId) {
         $('#postID').val(messageId);
@@ -70,17 +105,25 @@
             var json = JSON.parse(response);
             tinymce.get('message').setContent(json.message);
             $('#priority option[value='+json.priority+']').attr('selected','selected');
+            $('#cancelEdit').show();
             $(window).scrollTo($('#addMessage'),500);
         });
     }
     
     function deleteMessage(messageId) {
-        //TODO add message deletion with userID control
+        $deleteModal = $('#deleteModal');
+        $deleteModal.modal();
     }
+    
+    $('#cancelEdit').click(function(e) {
+        $('#postID').val(-1);
+        tinymce.get('message').setContent('');
+        $('#cancelEdit').hide();
+    });
 
     function postsAsync() {
         $.ajax({
-            method: "GET",
+            method: 'GET',
             url: '{siteUrl url='/posts/get-posts-from-group/'}{$group.id}'
           })
             .done(function(response) {
@@ -113,7 +156,7 @@
                 if(posts[i].user_id == {$user.id}) {
                     html += '<span class="buttons">';
                     html += '<button class="glyphicon glyphicon-pencil btn btn-link" onclick="editMessage('+posts[i].id+')"></button>';
-                    html += '<button class="glyphicon glyphicon-remove btn btn-link"></button>';
+                    html += '<button class="glyphicon glyphicon-remove btn btn-link" onclick="deleteMessage('+posts[i].id+')"></button>';
                     html += '</span>';
                 }
 

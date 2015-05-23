@@ -79,3 +79,8 @@ function getPost($postId) {
     );
     return json_encode($JSONreturn);
 }
+
+function getLatestsPosts($_userId) {
+    $posts = R::getAll("Select posts.message, posts.user_id, users.first_name, users.last_name, posts.posted_time, groups.name, groups.id As group_id From posts Inner Join groups On groups.id = posts.group_id Inner Join groupmembers On groupmembers.group_id = groups.id Inner Join users On posts.user_id = users.id And groupmembers.member_id = users.id Where posts.user_id = $_userId Limit 10");
+    return json_encode($posts);
+}

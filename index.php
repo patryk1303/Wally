@@ -3,13 +3,14 @@
 session_cache_limiter(false);
 session_start();
 
+require_once 'config.php';
 require_once 'Slim/Slim.php';
 \Slim\Slim::registerAutoloader();
 require_once 'Smarty/Smarty.class.php';
 require_once 'Smarty.php';
 
 require_once 'lib/rb.php';
-R::setup('mysql:host=localhost;dbname=Wally', 'root', '');
+R::setup('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASS);
 require_once 'Controllers/RegisterControllers.php';
 require_once 'lib/sessions.php';
 require_once 'lib/headers.php';
@@ -46,10 +47,7 @@ $app->hook('slim.before.dispatch', function() use ($view) {
 $app->get('/', function() use ($app) {
     
     if($_SESSION['login_ok']) {
-        //TODO download latest posts (eg. 10) from user's groups and store them
-        //to variable to use in array ['posts'] in $app->render()
-        
-        $app->render('main.html',array('posts' => []));
+        $app->render('main.html');
     } else {    
         $app->render('main.html');
     }
@@ -191,8 +189,11 @@ $app->group('/group', function() use ($app) {
         if($_SESSION['login_ok']) {
             $posts = R::getAll("SELECT * FROM posts,groups WHERE group_id = group.id");
             $group = R::load('groups',$id);
+            $members = R::getAll("Select users.id,users.first_name,users.last_name From groups Inner Join groupmembers On groups.id = groupmembers.group_id Inner Join users On users.id = groupmembers.member_id WHERE groups.id = :group_id",
+                        [':group_id' => $id]
+                       );
 
-            $app->render('group/view.html',array("posts" => $posts, "group" => $group));
+            $app->render('group/view.html',array("posts" => $posts, "group" => $group, "members" => $members));
         } else {
             $app->render('common/login_required.html');
         }
@@ -217,7 +218,7 @@ $app->group('/posts', function() use ($app) {
         echo getPost($id);
     });
     $app->get('/get-all-latest-posts', function() use ($app) {
-        echo 'laj,laj,laj';
+        echo getLatestsPosts($_SESSION['user_id']);
     });
     $app->get('/get-posts-from-group/:groupId', function($groupId) use ($app) {
 //        JSONheader();

@@ -30,5 +30,10 @@ function createGroup($_name,$_owner) {
     $group->owner = $_owner;
     $id = R::store($group);
     
+    $groupMembers = R::dispense('groupmembers');
+    $groupMembers->member_id = $_SESSION['user_id'];
+    $groupMembers->group_id = $id;
+    R::store($groupMembers);
+    
     return $id;
 }

@@ -78,4 +78,7 @@
   .panel-priority-4 .panel-footer {
     background-color: #ff6666; }
 
+#cancelEdit {
+  display: none; }
+
 /*# sourceMappingURL=main.css.map */
