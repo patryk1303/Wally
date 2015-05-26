@@ -174,3 +174,9 @@ hr {
   color:#fff;
   box-shadow: 0;
 }
+
+.table {
+    tr td {
+        border-top: none !important;
+    }
+}

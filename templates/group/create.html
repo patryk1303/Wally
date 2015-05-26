@@ -2,14 +2,25 @@
 
 {block name='main'}
 
-<h2>Stwórz grupę</h2>
-
 <form action="{siteUrl url='group/create'}" method="post" class="">
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Dodaj grupę</h3>
+  </div>
+  <div class="panel-body">
     <div class="form-group">
-        <label for="name">Nazwa grupy *</label>
         <input type="text" class="form-control" id="name" name="name" placeholder="Nazwa grupy" maxlength="25" required>
     </div>
-    <button type="submit" class="btn btn-default">Stwórz grupę</button>
+    
+
+  </div>
+  <div class="panel-footer">
+        <button type="submit" class="btn btn-default pull-right">Stwórz grupę</button>
+        <div class="clearfix"></div>
+    </div>
+    
+</div>
 </form>
 
 {/block}
