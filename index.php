@@ -225,6 +225,9 @@ $app->group('/posts', function() use ($app) {
         $posts = getPosts($groupId);
         echo $posts;
     });
+    $app->post('/remove/:id', function($id) use ($app) {
+        deletePost($id);
+    });
 });
 
 $app->run();

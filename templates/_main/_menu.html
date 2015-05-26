@@ -1,5 +1,5 @@
 <!-- Navigation -->
-<nav class="navbar navbar-inverse navbar-blue navbar-fixed-top" role="navigation">
+<nav class="navbar navbar-inverse navbar-fixed-top navbar-dark" role="navigation">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -21,13 +21,13 @@
             {if $smarty.session.login_ok}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                        Witaj, {$smarty.session.email}! <span class="caret"></span>
+                        {$user.first_name} {$user.last_name} <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="{siteUrl url='user/profile/'}{$smarty.session.user_id}">Widok profilu</a></li>
                         <li><a href="{siteUrl url='user/menage'}">Edycja profilu</a></li>
                         <li class="divider"></li>
-                        <li><a href="{siteUrl url='user/logout'}">Wyloguj się</a></li>
+                        <li><a href="{siteUrl url='user/logout'}"><span class="glyphicon glyphicon-off glyphicon-small"></span> Wyloguj się</a></li>
                     </ul>
                 </li>
             {else}

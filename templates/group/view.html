@@ -4,11 +4,9 @@
 
 {include 'common/confirm_delete.html'}
 
-<h2>{$group.name}</h2>
-
 <form action="{siteUrl url='group/post/'}{$group.id}" method="post">
     <div class="panel-group" id="addMessage" role="tablist" aria-multiselectable="true">
-        <div class="panel panel-info">
+        <div class="panel panel-default">
             <div class="panel-heading">
                 <a data-toggle="collapse" data-parent="#addMessage" href="#messageCollapse" aria-expanded="false" aria-controls="collapseOne">
                     Dodaj wiadomość
@@ -17,41 +15,32 @@
             <div id="messageCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
                 <div class="panel-body">
                     <input type="hidden" id="postID" name="postID" value="-1" readonly="true">
-                    <div class="form-group">
-                        <label for="message">Treść wiadomości:</label>
-                        <textarea name="message" id="message" class="form-control"></textarea>
-                        <!--<span class="alert" id="mesageStatus"></span>-->
-                        <label for="priority">Priorytet:</label>
+                    
+                        <textarea name="message" id="message" class="form-control" placeholder="Treść wiadomości"></textarea>
+                        <!--<span class="alert" id="mesageStatus"></span>-->                        
+                </div>
+                <div class="panel-footer">
+                    <div class="pull-left">
                         <select id="priority" name="priority" class="form-control">
-                            <option value="0">Bardzo niski</option>
-                            <option value="1">Niski</option>
-                            <option value="2">Średni</option>
-                            <option value="3">Wysoki</option>
-                            <option value="4">Bardzo wysoki</option>
+                            <option value="1">Priorytet niski</option>
+                            <option value="2" selected>Priorytet normalny</option>
+                            <option value="3">Priorytet wysoki</option>
                         </select>
                     </div>
-                    <button class="btn btn-info" type="submit">Wyślij</button>
-                    <button class="btn btn-warning" type="button" id="cancelEdit">Anuluj edycję</button>
+                    <div class="pull-right">
+                        <button class="btn btn-default pull-right" type="submit">Dodaj</button>
+                    </div>
+                    
+                    <div class="clearfix"></div>
                 </div>
             </div>
         </div>
     </div>
 </form>
 
-<div class="panel-group" id="lastMesages" role="tablist" aria-multiselectable="true">
-    <div class="panel panel-success">
-        <div class="panel-heading">
-            <a data-toggle="collapse" data-parent="#lastMesages" href="#messageCollapse1" aria-expanded="false" aria-controls="collapseOne">
-                Ostatnie wiadomości
-            </a>
-        </div>
-        <div id="messageCollapse1" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-            <div class="panel-body" id="latestsPosts">
+            <div id="latestsPosts">
                 <img src="{baseUrl}/img/loading.gif" alt="loading">
             </div>
-        </div>
-    </div>
-</div>
 
 <div class="panel-group" id="groupUsers" role="tablist" aria-multiselectable="true">
     <div class="panel panel-warning">
@@ -81,16 +70,8 @@
 {/block}
 
 {block name='extra_scripts' prepend}
-
-{*tinyMCE*}
-<script>
-    tinymce.init({
-        selector: '#message',
-        toolbar: ''
-    });
-</script>
 {*get latests posts*}
-<script src="{baseUrl}/js/group/groupPosts.js"></script>
+{*<script src="{baseUrl}/js/group/groupPosts.js"></script>*}
 
 <script>
     function editMessage(messageId) {
@@ -103,18 +84,33 @@
         })
         .done(function(response) {
             var json = JSON.parse(response);
-            tinymce.get('message').setContent(json.message);
+            // tinymce.get('message').setContent(json.message);
+            $('textarea[name=message]').val(json.message);
             $('#priority option[value='+json.priority+']').attr('selected','selected');
             $('#cancelEdit').show();
             $(window).scrollTo($('#addMessage'),500);
         });
     }
     
+    var _messId = -1;
     function deleteMessage(messageId) {
+        _messId = messageId;
         $deleteModal = $('#deleteModal');
         $deleteModal.modal();
     }
-    
+
+    function deleteMessageAjax(messageId) {
+        if(_messId > 0) {
+            $.ajax({
+                url: '{siteUrl url='/posts/remove/'}'+_messId,
+                method: 'POST'
+            })
+            .done(function(response) {
+                window.location.reload();
+            });
+        }
+    }
+
     $('#cancelEdit').click(function(e) {
         $('#postID').val(-1);
         tinymce.get('message').setContent('');
@@ -131,45 +127,43 @@
               var element = $('#latestsPosts');
               var html = '';
 
+              // var postsNumber = posts.length;
+
               if(posts.length == 0) {
-                  element.html('Brak wiadomości');
-                  return;
+                element.html('<div class="panel panel-default"><div class="panel-body">Brak wiadomości</div></div>');
+                return;
               }
 
               for(var i=0,len=posts.length;i<len;++i) {
-                html += '<div class="panel panel-priority panel-priority-'+posts[i].priority+'">';
-
+                // html += '<div class="panel panel-priority panel-priority-'+posts[i].priority+'">';
+                html += '<div class="panel panel-default panel-priority-'+posts[i].priority+'">';
                 html += '<div class="panel-body">';
-                html += posts[i].message;
-                html += '</div>';
-
-                html += '<div class="panel-footer">';
-
+                html += '<div class="heading">';
+                // html += postsNumber;
+                // html += '<div class="triangle pull-right triangle-priority-'+posts[i].priority+'"></div>';
                 html += '<div class="pull-left">';
-                html += '~ <a href="{siteUrl url="/user/profile/"}'+posts[i].user_id+'">';
+                html += '<a href="{siteUrl url="/user/profile/"}'+posts[i].user_id+'">';
                 html += posts[i].user_name;
                 html += '</a>';
                 html += '</div>';
-
                 html += '<div class="pull-right">';
-
-                if(posts[i].user_id == {$user.id}) {
-                    html += '<span class="buttons">';
-                    html += '<button class="glyphicon glyphicon-pencil btn btn-link" onclick="editMessage('+posts[i].id+')"></button>';
-                    html += '<button class="glyphicon glyphicon-remove btn btn-link" onclick="deleteMessage('+posts[i].id+')"></button>';
-                    html += '</span>';
-                }
-
                 if(posts[i].posted_time != null && posts[i].posted_time != undefined) {
                     html += '<span class="time">';
                     html += posts[i].posted_time;
                     html += '</span>';
                 }
-
+                if(posts[i].user_id == {$user.id}) {
+                    html += '<span class="buttons">';
+                    html += '<button class="glyphicon glyphicon-pencil btn btn-link" onclick="editMessage('+posts[i].id+')"></button>';
+                    html += '<button class="glyphicon glyphicon-remove btn btn-link" data-message-id='+posts[i].id+' onclick="deleteMessage('+posts[i].id+')"></button>';
+                    html += '</span>';
+                }
                 html += '</div>';
 
                 html += '<div class="clearfix"></div>';
-
+                html += '</div>';
+                html += '<hr>';
+                html += posts[i].message;
                 html += '</div>';
 
                 html += '</div>';
@@ -182,5 +176,4 @@
     postsAsync();
     var checkPosts = setInterval(postsAsync,10000);
 </script>
-
 {/block}

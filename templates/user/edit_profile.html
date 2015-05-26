@@ -1,10 +1,13 @@
 {extends '_main/_index.html'}
 
 {block name='main'}
-
-<h2>Edycja profilu</h2>
-
 <form action="{siteUrl url='/user/menage'}" method="post">
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Edycja profilu</h3>
+  </div>
+  <div class="panel-body">
+    
     <table class="table">
         <tr class="form-group">
             <td>
@@ -46,12 +49,15 @@
                 <input class="form-control" type="number" name="tel" id="tel" value="{$tel}">
             </td>
         </tr>
-        <tr>
-            <td colspan="2">
-                <button type="submit" class="btn btn-info">Zmień dane</button>
-            </td>
-        </tr>
     </table>
+  </div>
+  <div class="panel-footer">
+        <button type="submit" class="btn btn-info pull-right">Zmień dane</button>
+        <div class="clearfix"></div>
+    </div>
+    
+</div>
 </form>
+
 
 {/block}

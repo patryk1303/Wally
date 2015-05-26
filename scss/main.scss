@@ -1,59 +1,26 @@
 /* 
-    Created on : 2015-05-01, 21:56:46
-    Author     : Patryk
+    Created on : 2015-05-24
+    Author     : Jarek
 */
 
 $borderColor:       #40acff;
-$bkgColor:          rgba(164,224,255,1);
+$darkColor:         #535C69;
+$lightColor:        #ECF0F1;
+$greenColor:        #2DCB71;
 
-//73c2ff
 
-#footer {
-    margin-top: 10px;
-    border-top: 1px solid grey;
-    padding: 10px;
-}
-
-#leftColumn {
-    background-color: $bkgColor;
-    
-    /*width: 185px;*/
-    position: fixed;
-    height: 100%;
-    
-    padding-top: 20px;
-    padding-right: 60px;
-    padding-left: 60px;
-    
-    /*border-right: 1px solid $borderColor;*/
-    top: 51px;
-    left: 0;
-    
-}
-
-.left-column {
-    position: fixed;
-}
-
-.col-offset-200 {
-    padding-left: 200px;
-}
-
-.col-offset-230 {
-    padding-left: 230px;
-}
-
-.navbar-blue {
-    background-color: $bkgColor;
-    /*border-bottom: none;*/
+.navbar-dark {
+    background-color: $darkColor;
     
     .open > a, a:hover {
-        background-color: #eee !important;
+        color: rgba(210,210,225,1) !important;
     }
     
     a {
-        color: #337AB7 !important;
+        color: white !important;
     }
+
+
     
     .padding-60-60 {
         padding-left: 60px;
@@ -62,63 +29,148 @@ $bkgColor:          rgba(164,224,255,1);
     
 }
 
-.panel-heading {
-    .avatar {
-        height: 20px;
+body {
+    background-color: $lightColor;
+}
+
+.jumbotron {
+    background-color: white;
+}
+
+.glyphicon-small {
+    font-size: 12px;
+    padding-right: 10px;
+}
+
+a.dropdown-toggle {
+    font-weight: bold;
+}
+
+.sidebar {
+    h5 {
+        text-transform: uppercase;
+        line-height: 40px;
     }
 }
 
-// posts priorities
-.panel-priority {
-    
-    .panel-body {
-        max-height: 100px;
-        overflow-y: auto;
-    }
-    
-    .buttons {
-        opacity: 0;
-        transition: opacity 0.3s linear;
-    }
-    
-    &:hover .buttons {
-        opacity: 1;
+@media (max-width: 768px) {
+    .affix {
+        position: static;
     }
 }
-.panel-priority-0 {
-    border: 1px solid black;
-    .panel-footer {
-        background-color: lighten(black,20%);
-        color: white;
+
+.affix {
+    width: 262px;
+}
+
+.btn-green {
+    line-height: 40px;
+    text-transform: uppercase;
+    border: 0;
+    padding: 0 30px 0 30px;
+    background-color: inherit;
+    color: $darkColor !important;
+    border: 1px solid $darkColor;
+    &:hover {
+        background-color: $greenColor;
+        color: white !important;
+        border: 1px solid $greenColor;
     }
 }
+
+a, .btn-link {
+    color: $darkColor;
+    -o-transition:.5s;
+    -ms-transition:.5s;
+    -moz-transition:.5s;
+    -webkit-transition:.5s;
+    transition:.5s;
+}
+
+a:hover { color: $greenColor; }
+
+.panel-posts {
+    background-color: inherit;
+}
+
+.panel, .panel-body {
+    border: 0 !important;
+}
+
+a:hover, .btn, .btn-link, button {
+    text-decoration: none;
+}
+
+.triangle {
+    width: 0px;
+    height: 0px;
+    border-top: 20px solid red;
+    border-left: 20px solid transparent;
+    margin-top: -15px;
+    margin-right: -15px;
+}
+
+.triangle-priority-1 {
+    border-top: 20px solid $darkColor;
+}
+
+.triangle-priority-2 {
+    border-top: 20px solid transparent;
+}
+
+.triangle-priority-3 {
+    border-top: 20px solid red;
+}
+
 .panel-priority-1 {
-    border: 1px solid gray;
-    .panel-footer {
-        background-color: lighten(gray,20%);
-        color: white;
-    }
-}
-.panel-priority-2 {
-    border: 1px solid lightgray;
-    .panel-footer {
-        background-color: lighten(lightgray,20%);
-    }
-}
-.panel-priority-3 {
-    border: 1px solid yellow;
-    .panel-footer {
-        background-color: lighten(yellow,20%);
-    }
-}
-.panel-priority-4 {
-    border: 1px solid red;
-    .panel-footer {
-        background-color: lighten(red,20%);
-    }
+    border-top: 2px solid silver !important;
 }
 
-// message edit
-#cancelEdit {
-    display: none;
+.panel-priority-3 {
+    border-top: 2px solid darken(red,10%) !important;
+}
+
+.panel-readed {
+    opacity: .5;
+}
+
+.heading {
+    color: #999;
+}
+
+.nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus,
+.nav-pills>li>a:focus, .nav-pills>li>a:hover {
+    color: $darkColor;
+    background-color: white;
+}
+
+.list-group-item.active>.badge, .nav-pills>.active>a>.badge,
+.nav-pills>li>a>.badge {
+    color: white;
+    background-color: $darkColor;
+}
+
+.nav-pills>li>a:focus, .nav-pills>li>a:hover {
+    opacity: .5;
+}
+
+hr {
+    margin: 15px 0 15px 0;
+}
+
+.glyphicon.btn-link {
+    padding: 0;
+    margin-left: 16px;
+    font-size: 12px;
+    color: $darkColor;
+    &:hover {
+        text-decoration: none;
+        color: $greenColor;
+    };
+}
+
+.dropdown-menu {
+  background-color: $darkColor;
+  color:#fff;
+  box-shadow: 0;
 }
