@@ -39,7 +39,13 @@
             {if $smarty.session.login_ok && isset($user)}
             
             <div class="col-sm-3">
-                {include '_main/_left-column.html'}
+                <div class="sidebar" data-spy="affix" data-offset-top="60" data-offset-bottom="200">
+                    {include '_main/_left-column.html'}
+                    <br><br>
+                    {block 'users'}
+
+                    {/block}
+                </div>
             </div>
             
             <div class="col-sm-9">

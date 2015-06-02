@@ -24,8 +24,8 @@
                         {$user.first_name} {$user.last_name} <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="{siteUrl url='user/profile/'}{$smarty.session.user_id}">Widok profilu</a></li>
-                        <li><a href="{siteUrl url='user/menage'}">Edycja profilu</a></li>
+                        <li><a href="{siteUrl url='user/profile/'}{$smarty.session.user_id}"><span class="glyphicon glyphicon-user glyphicon-small"></span> Widok profilu</a></li>
+                        <li><a href="{siteUrl url='user/menage'}"><span class="glyphicon glyphicon-edit glyphicon-small"></span> Edycja profilu</a></li>
                         <li class="divider"></li>
                         <li><a href="{siteUrl url='user/logout'}"><span class="glyphicon glyphicon-off glyphicon-small"></span> Wyloguj się</a></li>
                     </ul>

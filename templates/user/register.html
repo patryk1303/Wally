@@ -2,9 +2,14 @@
 
 {block name='main'}
 
-<h2>Rejestracja</h2>
-
 <form action="{siteUrl url='user/register'}" method="post" class="">
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Rejestracja</h3>
+  </div>
+
+  <div class="panel-body">
     <div class="form-group">
         <label for="email">Adres email *</label>
         <input type="email" class="form-control" id="email" name="email" placeholder="Adres email" maxlength="45" required>
@@ -31,7 +36,12 @@
         <label for="phone">Numer telefonu</label>
         <input type="number" class="form-control" id="phone" name="phone" maxlength="20" placeholder="Numer telefonu">
     </div>
-    <button type="submit" class="btn btn-default" id="registerButton">Zarejstruj się</button>
+  </div>
+  <div class="panel-footer">
+    <button type="submit" class="btn btn-default pull-right" id="registerButton">Zarejstruj się</button>
+    <div class="clearfix"></div>
+  </div>
+</div>
 </form>
 
 {/block}

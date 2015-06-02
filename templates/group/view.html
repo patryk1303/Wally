@@ -42,31 +42,6 @@
                 <img src="{baseUrl}/img/loading.gif" alt="loading">
             </div>
 
-<div class="panel-group" id="groupUsers" role="tablist" aria-multiselectable="true">
-    <div class="panel panel-warning">
-        <div class="panel-heading">
-            <a data-toggle="collapse" data-parent="#groupUsers" href="#usersCollapse" aria-expanded="false" aria-controls="collapseOne">
-                Członkowie grupy
-            </a>
-        </div>
-        <div id="usersCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-            <div class="panel-body" id="groupUsers1">
-                <ul class="list-inline">
-                {foreach $members as $member}
-                    <li><a href="{siteUrl url='user/profile/'}{$member.id}">{$member.first_name} {$member.last_name}</a></li>
-                {/foreach}
-                </ul>
-            </div>
-            
-            <div class="panel-footer">
-                <a class="btn btn-info">
-                    Dodaj członka do grupy
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
-
 {/block}
 
 {block name='extra_scripts' prepend}
@@ -135,12 +110,10 @@
               }
 
               for(var i=0,len=posts.length;i<len;++i) {
-                // html += '<div class="panel panel-priority panel-priority-'+posts[i].priority+'">';
-                html += '<div class="panel panel-default panel-priority-'+posts[i].priority+'">';
+                html += '<div class="panel panel-default">';
                 html += '<div class="panel-body">';
                 html += '<div class="heading">';
-                // html += postsNumber;
-                // html += '<div class="triangle pull-right triangle-priority-'+posts[i].priority+'"></div>';
+                html += '<div class="triangle pull-right triangle-priority-'+posts[i].priority+'"></div>';
                 html += '<div class="pull-left">';
                 html += '<a href="{siteUrl url="/user/profile/"}'+posts[i].user_id+'">';
                 html += posts[i].user_name;
@@ -176,4 +149,20 @@
     postsAsync();
     var checkPosts = setInterval(postsAsync,10000);
 </script>
+{/block}
+
+
+{block name='users'}
+<h5><span class="glyphicon glyphicon-user glyphicon-small"></span> Członkowie grupy</h5>
+
+<ul class="nav nav-pills nav-stacked">
+    {foreach $members as $member}
+    <li>
+        <a href="{siteUrl url='user/profile/'}{$member.id}">
+            {$member.first_name} {$member.last_name}
+            <!-- <span class="pull-right badge">4</span> -->
+        </a>
+    </li>
+    {/foreach}
+</ul>
 {/block}
