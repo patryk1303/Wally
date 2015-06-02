@@ -37,7 +37,12 @@
         </div>
     </div>
 </form>
-
+<div class="input-group">
+  <input type="text" class="form-control" placeholder="Szukaj...">
+  <span class="input-group-btn">
+    <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+  </span>
+</div><br>
             <div id="latestsPosts">
                 <img src="{baseUrl}/img/loading.gif" alt="loading">
             </div>
@@ -159,10 +164,34 @@
     {foreach $members as $member}
     <li>
         <a href="{siteUrl url='user/profile/'}{$member.id}">
+            <span style="color: green;" class="glyphicon glyphicon-record glyphicon-small"></span>
             {$member.first_name} {$member.last_name}
-            <!-- <span class="pull-right badge">4</span> -->
         </a>
     </li>
     {/foreach}
+    <li>
+        <a href="{siteUrl url='user/profile/'}{$member.id}">
+            <span style="color: green;" class="glyphicon glyphicon-record glyphicon-small"></span>
+            Patryk Wychowaniec
+        </a>
+    </li>
+    <li>
+        <a href="{siteUrl url='user/profile/'}{$member.id}">
+            <span class="glyphicon glyphicon-record glyphicon-small"></span>
+            Radosław Wlekliński
+        </a>
+    </li>
+    <li>
+        <a href="{siteUrl url='user/profile/'}{$member.id}">
+            <span class="glyphicon glyphicon-record glyphicon-small"></span>
+            Patryk Sobczak
+        </a>
+    </li>
+    <li>
+        <a href="{siteUrl url='user/profile/'}{$member.id}">
+            <span class="glyphicon glyphicon-record glyphicon-small"></span>
+            Jan Kowalski
+        </a>
+    </li>
 </ul>
 {/block}
