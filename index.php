@@ -85,7 +85,7 @@ $app->post('/contact', function() use ($app) {
  */
 $app->group('/user', function() use ($app) {
     /**
-     * when user is logged - displays register form
+     * when user isn't logged - displays register form
      */
     $app->get('/register', function() use ($app) {
         if($_SESSION['login_ok']) {
@@ -108,7 +108,7 @@ $app->group('/user', function() use ($app) {
         $app->render('user/register_post.html', array('correct'=>$data[0], 'errors'=>$data[1]));
     });
     /**
-     * when user is logged - displays login form
+     * when user isn't logged - displays login form
      */
     $app->get('/login', function() use ($app) {
         if($_SESSION['login_ok']) {
@@ -218,7 +218,7 @@ $app->group('/group', function() use ($app) {
      * reditects to /group/list
      */
     $app->get('/', function() use($app) {
-        $app->redirect('./list');
+        $app->redirect('./..');
     });
     
     /**
