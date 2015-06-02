@@ -1,20 +1,15 @@
-<h4>Twoje grupy</h4>
+<h5><span class="glyphicon glyphicon-comment glyphicon-small"></span> Moje grupy</h5>
 
 <ul class="nav nav-pills nav-stacked">
     {foreach $userGroups as $group}
-
-
     <li>
         <a href="{siteUrl url='/group/view/'}{$group.id}">
+            <span class="glyphicon glyphicon-bookmark glyphicon-small"></span>
             {$group.name}
-            <span class="pull-right badge">4</span>
+            <!-- <span class="pull-right badge">4</span> -->
         </a>
     </li>
-
-
     {/foreach}
-    <li class="nav-divider"></li>
-    <li>
-        <a href="{siteUrl url='/group/create'}">Stwórz grupę</a>
-    </li>
+    <br>
+    <center><a href="{siteUrl url='/group/create'}" type="button" class="btn btn-green"><span class="glyphicon glyphicon-plus glyphicon-small"></span> Utwórz grupę</a></center>
 </ul>

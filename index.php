@@ -3,13 +3,14 @@
 session_cache_limiter(false);
 session_start();
 
+require_once 'config.php';
 require_once 'Slim/Slim.php';
 \Slim\Slim::registerAutoloader();
 require_once 'Smarty/Smarty.class.php';
 require_once 'Smarty.php';
 
 require_once 'lib/rb.php';
-R::setup('mysql:host=localhost;dbname=Wally', 'root', '');
+R::setup('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASS);
 require_once 'Controllers/RegisterControllers.php';
 require_once 'lib/sessions.php';
 require_once 'lib/headers.php';
@@ -33,6 +34,10 @@ $view->parserExtensions = array($plug);
 
 $app->setName('Wally');
 
+/**
+ * runs refore each route match.
+ * If user is logged - loads it's data and passes to tamplate engine
+ */
 $app->hook('slim.before.dispatch', function() use ($view) {
     if($_SESSION['login_ok']) {
         $user = R::load('users',$_SESSION['user_id']);
@@ -43,21 +48,28 @@ $app->hook('slim.before.dispatch', function() use ($view) {
     }
 });
 
+/**
+ * matches main page
+ */
 $app->get('/', function() use ($app) {
     
     if($_SESSION['login_ok']) {
-        //TODO download latest posts (eg. 10) from user's groups and store them
-        //to variable to use in array ['posts'] in $app->render()
-        
-        $app->render('main.html',array('posts' => []));
+        $app->render('main.html');
     } else {    
         $app->render('main.html');
     }
 });
 
+/**
+ * matches GET contact page
+ */
 $app->get('/contact', function() use ($app) {
     $app->render('contact.html');
 });
+/**
+ * POST contact page - checks form validity and sends mail
+ * to development team
+ */
 $app->post('/contact', function() use ($app) {
     $postData = $app->request->post();
     $correct = checkcontact($postData);
@@ -68,7 +80,13 @@ $app->post('/contact', function() use ($app) {
     $app->render('contact_post.html', $arr);
 });
 
+/**
+ * matches routes fror /user/*
+ */
 $app->group('/user', function() use ($app) {
+    /**
+     * when user isn't logged - displays register form
+     */
     $app->get('/register', function() use ($app) {
         if($_SESSION['login_ok']) {
             $app->redirect('./..');
@@ -76,6 +94,9 @@ $app->group('/user', function() use ($app) {
             $app->render('user/register.html');
         }
     });
+    /**
+     * checks and stores new user data in database
+     */
     $app->post('/register', function() use ($app) {
         if($_SESSION['login_ok']) {
             $app->redirect ('./..');
@@ -86,12 +107,18 @@ $app->group('/user', function() use ($app) {
         
         $app->render('user/register_post.html', array('correct'=>$data[0], 'errors'=>$data[1]));
     });
+    /**
+     * when user isn't logged - displays login form
+     */
     $app->get('/login', function() use ($app) {
         if($_SESSION['login_ok']) {
             $app->redirect ('./..');
         }
         $app->render('user/login.html');
     });
+    /**
+     * checks if user put correct login data, if correct - logges in
+     */
     $app->post('/login', function() use ($app) {
         if($_SESSION['login_ok']) {
             $app->redirect ('./..');
@@ -101,6 +128,11 @@ $app->group('/user', function() use ($app) {
         
         $app->render('user/login_post.html', array('logged_ok'=>$logged_ok));
     });
+    /**
+     * retrieves user data and displays them,
+     * when user is not logged - display warning
+     * @param $id - user id
+     */
     $app->get('/profile/:id', function($id) use ($app) {
         $user = R::findOne('users', "id = $id");
         
@@ -120,10 +152,16 @@ $app->group('/user', function() use ($app) {
             $app->render('common/login_required.html');
         }
     });
+    /**
+     * matches logout
+     */
     $app->get('/logout', function() use ($app) {
         destroySession();
         $app->redirect('./..');
     });
+    /**
+     * displays user menage form
+     */
     $app->get('/menage', function() use($app) {
         $user = R::findOne('users', "id = " . $_SESSION['user_id']);
 
@@ -142,34 +180,50 @@ $app->group('/user', function() use ($app) {
             $app->render('common/login_required.html');
         }
     });
+    /**
+     * changes current user data in database
+     */
     $app->post('/menage', function() use ($app) {
-        $newName = $app->request->post('name');
-        $newSurName = $app->request->post('surname');
-        $newEmail = $app->request->post('email');
-        $newSkype = $app->request->post('skype');
-        $newTel = $app->request->post('tel');
-        $uID = $_SESSION['user_id'];
-        
-        $user = R::load('users',$uID);
-        
-        $user->first_name = $newName;
-        $user->last_name = $newSurName;
-        $user->email = $newEmail;
-        $user->skype = $newSkype;
-        $user->phone_number = $newTel;
-        
-        R::store($user);
-        
-        $app->redirect("./profile/$uID");
+        if($_SESSION['login_ok']) {
+            $newName = $app->request->post('name');
+            $newSurName = $app->request->post('surname');
+            $newEmail = $app->request->post('email');
+            $newSkype = $app->request->post('skype');
+            $newTel = $app->request->post('tel');
+            $uID = $_SESSION['user_id'];
+
+            $user = R::load('users',$uID);
+
+            $user->first_name = $newName;
+            $user->last_name = $newSurName;
+            $user->email = $newEmail;
+            $user->skype = $newSkype;
+            $user->phone_number = $newTel;
+
+            R::store($user);
+
+            $app->redirect("./profile/$uID");
+        } else {
+            $app->render('common/login_required.html');
+        }
     });
 });
 
+/**
+ * matches routing for groups
+ */
 $app->group('/group', function() use ($app) {
     
+    /**
+     * reditects to /group/list
+     */
     $app->get('/', function() use($app) {
-        $app->redirect('./list');
+        $app->redirect('./..');
     });
     
+    /**
+     * displays group create form
+     */
     $app->get('/create', function() use ($app) {
         if($_SESSION['login_ok']) {
             $app->render('group/create.html');
@@ -177,6 +231,9 @@ $app->group('/group', function() use ($app) {
             $app->render('common/login_required.html');
         }
     });
+    /**
+     * creates group when POST data is correct
+     */
     $app->post('/create', function() use ($app) {
         $postData = $app->request()->post();
         $data = CheckGroupCreation($postData);
@@ -186,21 +243,33 @@ $app->group('/group', function() use ($app) {
         $app->render('group/create_post.html', array('correct'=>$correct,'id'=>$gID));
     });
     
+    /**
+     * displays group
+     * @param id group id
+     */
     $app->get('/view/:id', function($id) use ($app) {
         
         if($_SESSION['login_ok']) {
             $posts = R::getAll("SELECT * FROM posts,groups WHERE group_id = group.id");
             $group = R::load('groups',$id);
+            $members = R::getAll("Select users.id,users.first_name,users.last_name From groups Inner Join groupmembers On groups.id = groupmembers.group_id Inner Join users On users.id = groupmembers.member_id WHERE groups.id = :group_id",
+                        [':group_id' => $id]
+                       );
 
-            $app->render('group/view.html',array("posts" => $posts, "group" => $group));
+            $app->render('group/view.html',array("posts" => $posts, "group" => $group, "members" => $members));
         } else {
             $app->render('common/login_required.html');
         }
         
     });
     
+    /**
+     * add message to group when data is corrent
+     * @param groupId group id
+     */
     $app->post('/post/:id', function($groupId) use ($app) {
         $postData = $app->request()->post();
+        print_r($postData);
         $data = CheckPostAdd($postData,$groupId);
         $correct = $data[0];
         $gID = $data[1];
@@ -212,13 +281,33 @@ $app->group('/group', function() use ($app) {
 
 //section for JSON responses
 $app->group('/posts', function() use ($app) {
-    $app->get('/get-all-latest-posts', function() use ($app) {
-        echo 'laj,laj,laj';
+    /**
+     * displays message
+     * @param id message id
+     */
+    $app->get('/get-post/:id', function($id) use ($app) {
+        echo getPost($id);
     });
+    /**
+     * displays latests 10 posts from user groups as JSON data
+     */
+    $app->get('/get-all-latest-posts', function() use ($app) {
+        echo getLatestsPosts($_SESSION['user_id']);
+    });
+    /**
+     * displays messages from group JSON data
+     * @param id group id
+     */
     $app->get('/get-posts-from-group/:groupId', function($groupId) use ($app) {
-//        JSONheader();
         $posts = getPosts($groupId);
         echo $posts;
+    });
+    /**
+     * removes message
+     * @param id message id
+     */
+    $app->post('/remove/:id', function($id) use ($app) {
+        deletePost($id);
     });
 });
 

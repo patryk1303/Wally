@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * checks if contact form was valid
+ * @param array $request contact form POST params
+ * @return boolean true when contact form is correct, false - then not
+ */
 function checkContact($request) {
     $name = $request['name'];
     $surname = $request['surname'];

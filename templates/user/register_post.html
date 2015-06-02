@@ -6,19 +6,18 @@
 
 {if $correct}
     <div class="alert alert-success">
-        <string>Pomyślnie zarejestrowano</string><br>
-        Możesz się teraz zalogować
+        <strong>Rejestracja przebiegła pomyślnie</strong>.<br>
+        Możesz się teraz <a href="{siteUrl url='/user/login'}">zalogować</a>.
     </div>
 {else}
     <div class="alert alert-danger">
-        <strong>Wystapił błąd podczas rejestracji</strong><br>
-        Znalezione błędy:
+        <strong>Podczas rejestracji pojawiły się następujące błędy:</strong><br>
         <ul>
             {foreach $errors as $error}
             <li>{$error}</li>
             {/foreach}
         </ul>
-        <a href="{siteUrl url='/user/register'}">spróbuj ponownie</a>
+        <a href="{siteUrl url='/user/register'}">Spróbuj ponownie</a>.
     </div>
 {/if}
 

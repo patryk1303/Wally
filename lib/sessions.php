@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * checks SESSION values if they're set.
+ * When calues is not set - set to 0
+ */
 function checkSessionVars() {
     if(!isset($_SESSION['user_id'])) {
         $_SESSION['user_id']  = 0;
@@ -15,6 +19,9 @@ function checkSessionVars() {
     }
 }
 
+/**
+ * destroys current SESSION
+ */
 function destroySession() {
     unset($_SESSION['user_id']);
     unset($_SESSION['email']);
@@ -22,6 +29,10 @@ function destroySession() {
     unset($_SESSION['login_ok']);
 };
 
+/**
+ * checks if SESSION data is ok
+ * @return boolean true when SESSION data is ok, false when not
+ */
 function checkUserSession() {
     $user_id = $_SESSION['user_id'];
     $email   = $_SESSION['email'];

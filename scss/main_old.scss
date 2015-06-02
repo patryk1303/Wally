@@ -1,0 +1,124 @@
+/* 
+    Created on : 2015-05-01, 21:56:46
+    Author     : Patryk
+*/
+
+$borderColor:       #40acff;
+$bkgColor:          rgba(164,224,255,1);
+
+//73c2ff
+
+#footer {
+    margin-top: 10px;
+    border-top: 1px solid grey;
+    padding: 10px;
+}
+
+#leftColumn {
+    background-color: $bkgColor;
+    
+    /*width: 185px;*/
+    position: fixed;
+    height: 100%;
+    
+    padding-top: 20px;
+    padding-right: 60px;
+    padding-left: 60px;
+    
+    /*border-right: 1px solid $borderColor;*/
+    top: 51px;
+    left: 0;
+    
+}
+
+.left-column {
+    position: fixed;
+}
+
+.col-offset-200 {
+    padding-left: 200px;
+}
+
+.col-offset-230 {
+    padding-left: 230px;
+}
+
+.navbar-blue {
+    background-color: $bkgColor;
+    /*border-bottom: none;*/
+    
+    .open > a, a:hover {
+        background-color: #eee !important;
+    }
+    
+    a {
+        color: #337AB7 !important;
+    }
+    
+    .padding-60-60 {
+        padding-left: 60px;
+        padding-right: 60px;
+    }
+    
+}
+
+.panel-heading {
+    .avatar {
+        height: 20px;
+    }
+}
+
+// posts priorities
+.panel-priority {
+    
+    .panel-body {
+        max-height: 100px;
+        overflow-y: auto;
+    }
+    
+    .buttons {
+        opacity: 0;
+        transition: opacity 0.3s linear;
+    }
+    
+    &:hover .buttons {
+        opacity: 1;
+    }
+}
+.panel-priority-0 {
+    border: 1px solid black;
+    .panel-footer {
+        background-color: lighten(black,20%);
+        color: white;
+    }
+}
+.panel-priority-1 {
+    border: 1px solid gray;
+    .panel-footer {
+        background-color: lighten(gray,20%);
+        color: white;
+    }
+}
+.panel-priority-2 {
+    border: 1px solid lightgray;
+    .panel-footer {
+        background-color: lighten(lightgray,20%);
+    }
+}
+.panel-priority-3 {
+    border: 1px solid yellow;
+    .panel-footer {
+        background-color: lighten(yellow,20%);
+    }
+}
+.panel-priority-4 {
+    border: 1px solid red;
+    .panel-footer {
+        background-color: lighten(red,20%);
+    }
+}
+
+// message edit
+#cancelEdit {
+    display: none;
+}

@@ -58,6 +58,15 @@ function CheckUserRegister($data) {
     return array(false, $errors);
 }
 
+/**
+ * stores new user data in database
+ * @param string $email new user email
+ * @param string $passwd new user MD5 password
+ * @param string $name new user main name
+ * @param string $surname new user second name
+ * @param string $skype new user Skype ID
+ * @param string $phone new user phone number
+ */
 function registerUser($email,$passwd,$name,$surname,$skype,$phone) {
     $user = R::dispense('users');
     $user->email = $email;
@@ -71,15 +80,17 @@ function registerUser($email,$passwd,$name,$surname,$skype,$phone) {
     $id = R::store($user);
 }
 
+/**
+ * checks if user login data is correct
+ * @param array $data login form POST data
+ * @return boolean
+ */
 function CheckUserLogin($data) {
     $email = $data['email'];
     $passwd = md5($data['passwd']);
     
     $user = R::find('users', "email LIKE :email AND password LIKE :passwd",
                    array(':email' => $email,':passwd' => $passwd));
-    
-//    echo "c: ".count($user)."<br>";
-//    print_r($user);
     
     if(count($user) == 1) {
         $user = R::findOne('users', "email LIKE :email AND password LIKE :passwd",

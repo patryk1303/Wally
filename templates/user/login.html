@@ -2,9 +2,13 @@
 
 {block name='main'}
 
-<h2>Zaloguj się</h2>
-
 <form action="{siteUrl url='user/login'}" method="post" class="">
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Logowanie</h3>
+  </div>
+  <div class="panel-body">
     <div class="form-group">
         <label for="email">Adres email *</label>
         <input type="email" class="form-control" id="email" name="email" placeholder="Adres email" maxlength="45" required>
@@ -13,7 +17,12 @@
         <label for="passwd">Hasło *</label>
         <input type="password" class="form-control" id="passwd" name="passwd" placeholder="Hasło" required>
     </div>
-    <button type="submit" class="btn btn-default">Zaloguj się</button>
+  </div>
+  <div class="panel-footer">
+    <button type="submit" class="btn btn-default pull-right">Zaloguj się</button>
+    <div class="clearfix"></div>
+  </div>
+</div>
 </form>
 
 {/block}
